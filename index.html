@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Monitoring SILAGA KENCANA 2026</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800">
+
+    <header class="bg-blue-600 text-white p-4 shadow-md">
+        <h1 class="text-2xl font-bold mb-4">DASHBOARD MONITORING SILAGA KENCANA 2026</h1>
+        <div class="flex flex-wrap gap-4">
+            <select id="filterIndikator" onchange="muatDataIndikator()" class="text-gray-800 bg-white p-2 rounded font-bold w-64 border border-gray-300">
+                <optgroup label="Cakupan (Ada/Lapor)">
+                    <option value="tpmb">TPMB</option><option value="ppkbd">PPKBD</option>
+                    <option value="bkb">BKB</option><option value="bkr">BKR</option>
+                    <option value="bkl">BKL</option><option value="uppka">UPPKA</option>
+                    <option value="pikr">PIK Remaja</option>
+                </optgroup>
+                <optgroup label="PB (Target/Realisasi)">
+                    <option value="pb_total">PB Total</option><option value="pb_mkjp">PB MKJP</option>
+                    <option value="pb_kbpp">PB KBPP</option>
+                </optgroup>
+            </select>
+            <select id="filterBulan" onchange="saringDanTampilkanData()" class="text-gray-800 bg-white p-2 rounded font-bold border border-gray-300">
+                <option value="Januari">Januari</option><option value="Februari">Februari</option><option value="Maret">Maret</option>
+                <option value="April">April</option><option value="Mei">Mei</option><option value="Juni">Juni</option>
+                <option value="Juli">Juli</option><option value="Agustus">Agustus</option><option value="September">September</option>
+                <option value="Oktober">Oktober</option><option value="November">November</option><option value="Desember">Desember</option>
+            </select>
+            <select id="filterKabupaten" onchange="aksiPilihKabupaten()" class="text-gray-800 bg-white p-2 rounded font-bold border border-gray-300">
+                <option value="SEMUA">-- Semua Kabupaten --</option>
+                <option value="Jembrana">Jembrana</option><option value="Tabanan">Tabanan</option><option value="Badung">Badung</option>
+                <option value="Gianyar">Gianyar</option><option value="Klungkung">Klungkung</option><option value="Bangli">Bangli</option>
+                <option value="Karangasem">Karangasem</option><option value="Buleleng">Buleleng</option><option value="Denpasar">Denpasar</option>
+            </select>
+            <select id="filterKecamatan" onchange="saringDanTampilkanData()" class="text-gray-800 bg-white p-2 rounded font-bold border border-gray-300">
+                <option value="SEMUA">-- Semua Kecamatan --</option>
+            </select>
+        </div>
+    </header>
+
+    <main class="p-6 max-w-7xl mx-auto space-y-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-blue-500">
+                <p class="text-xs font-semibold uppercase text-gray-500">TARGET / ADA</p>
+                <p id="cardTotal" class="text-2xl font-bold mt-1 text-gray-800">0</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-green-500">
+                <p class="text-xs font-semibold uppercase text-gray-500">REALISASI / LAPOR</p>
+                <p id="cardLapor" class="text-2xl font-bold mt-1 text-gray-800">0</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-yellow-500">
+                <p class="text-xs font-semibold uppercase text-gray-500">CAPAIAN (%)</p>
+                <p id="cardPersen" class="text-2xl font-bold mt-1 text-gray-800">0%</p>
+            </div>
+            <div id="cardPerformaContainer" class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-purple-500 hidden">
+                <p class="text-xs font-semibold uppercase text-gray-500">PERFORMA (%)</p>
+                <p id="cardPerforma" class="text-2xl font-bold mt-1 text-purple-600">0%</p>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-sm">
+            <h3 class="text-lg font-bold text-gray-700 mb-4">Grafik Capaian/Performa</h3>
+            <div class="h-96"><canvas id="canvasGrafik"></canvas></div>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-sm overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead id="headTabel" class="bg-gray-100"></thead>
+                <tbody id="bodyTabel" class="divide-y text-gray-700"></tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        Chart.register(ChartDataLabels);
+
+        // Fungsi Warna (Merah: <=50, Kuning: 50-75, Hijau: 75-100, Biru: >100)
+        function getStatusColor(v) {
+            if (v < 50) return { css: "text-red-600 font-bold", hex: "#ef4444" };
+            if (v < 75) return { css: "text-yellow-600 font-bold", hex: "#eab308" };
+            if (v < 100) return { css: "text-green-600 font-bold", hex: "#22c55e" };
+            return { css: "text-blue-600 font-bold", hex: "#3b82f6" };
+        }
+
+         const db = {
+            tpmb: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=1971994987&single=true&output=csv", type: "cakupan" }, // Ganti link
+            ppkbd: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=1686763&single=true&output=csv", type: "cakupan" },
+            bkb: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=773449745&single=true&output=csv", type: "cakupan" },
+            bkr: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=272286834&single=true&output=csv", type: "cakupan" },
+            bkl: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=643868757&single=true&output=csv", type: "cakupan" },
+            uppka: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=1222746329&single=true&output=csv", type: "cakupan" },
+            pikr: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=277045311&single=true&output=csv", type: "cakupan" },
+            pb_total: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=903350473&single=true&output=csv", type: "pb" },
+            pb_mkjp: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=1894993991&single=true&output=csv", type: "pb" },
+            pb_kbpp: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=956857648&single=true&output=csv", type: "pb" }
+        };
+
+        const indeksBulan = { 'Januari': 1, 'Februari': 2, 'Maret': 3, 'April': 4, 'Mei': 5, 'Juni': 6, 'Juli': 7, 'Agustus': 8, 'September': 9, 'Oktober': 10, 'November': 11, 'Desember': 12 };
+        let semuaDataMentah = [];
+        let chart = null;
+
+        async function muatDataIndikator() {
+            const ind = document.getElementById('filterIndikator').value;
+            try {
+                const res = await fetch(db[ind].url);
+                const text = await res.text();
+                semuaDataMentah = text.split('\n').slice(1).map(r => {
+                    const c = r.replace(/"/g, "").split(r.includes(';') ? ';' : ',');
+                    return { kab: c[4]||"", kec: c[3]||"", desa: c[2]||"", seluruhKolom: c };
+                }).filter(x => x.kab);
+                aksiPilihKabupaten();
+            } catch(e) { console.error(e); alert("Gagal mengambil data, pastikan link CSV valid."); }
+        }
+
+        function aksiPilihKabupaten() {
+            const kab = document.getElementById('filterKabupaten').value;
+            const dropKec = document.getElementById('filterKecamatan');
+            dropKec.innerHTML = '<option value="SEMUA">-- Semua Kecamatan --</option>';
+            if(kab !== "SEMUA") {
+                [...new Set(semuaDataMentah.filter(d => d.kab.toLowerCase().includes(kab.toLowerCase())).map(d => d.kec))].forEach(kec => {
+                    let o = document.createElement('option'); o.value = kec; o.textContent = kec; dropKec.appendChild(o);
+                });
+            }
+            saringDanTampilkanData();
+        }
+
+        function saringDanTampilkanData() {
+            const ind = document.getElementById('filterIndikator').value;
+            const config = db[ind];
+            const b = indeksBulan[document.getElementById('filterBulan').value];
+            const ideal = (b / 12) * 100;
+            const kab = document.getElementById('filterKabupaten').value;
+            const kec = document.getElementById('filterKecamatan').value;
+
+            const dataFiltered = semuaDataMentah.filter(d => 
+                (kab === "SEMUA" || d.kab.toLowerCase().includes(kab.toLowerCase())) &&
+                (kec === "SEMUA" || d.kec.toLowerCase().includes(kec.toLowerCase()))
+            );
+
+            const groupKey = kab === "SEMUA" ? "kab" : (kec === "SEMUA" ? "kec" : "desa");
+            const aggregated = {};
+            
+            dataFiltered.forEach(d => {
+                let target = config.type === 'cakupan' ? parseInt(d.seluruhKolom[5 + b]) : parseFloat(d.seluruhKolom[5]);
+                let lapor = config.type === 'cakupan' ? parseInt(d.seluruhKolom[17 + b]) : parseFloat(d.seluruhKolom[6 + (b - 1)]);
+                
+                const key = d[groupKey];
+                if (!aggregated[key]) aggregated[key] = { target: 0, lapor: 0 };
+                aggregated[key].target += (target || 0);
+                aggregated[key].lapor += (lapor || 0);
+            });
+
+            let finalData = Object.keys(aggregated).map(k => {
+                let persen = aggregated[k].target > 0 ? (aggregated[k].lapor / aggregated[k].target) * 100 : 0;
+                let performa = (config.type === 'pb' && ideal > 0) ? (persen / ideal) * 100 : persen;
+                return { label: k, target: aggregated[k].target, lapor: aggregated[k].lapor, persen, performa };
+            }).sort((a,b) => (config.type === 'pb' ? b.performa - a.performa : b.persen - a.persen));
+
+            // Update Tabel
+            const head = document.getElementById('headTabel');
+            head.innerHTML = config.type === 'pb' ? `<tr><th class="p-3">Wilayah</th><th class="p-3">Target</th><th class="p-3">Realisasi</th><th class="p-3">Capaian %</th><th class="p-3">Performa %</th></tr>` : `<tr><th class="p-3">Wilayah</th><th class="p-3">Target</th><th class="p-3">Realisasi</th><th class="p-3">Capaian %</th></tr>`;
+            
+            const body = document.getElementById('bodyTabel');
+            body.innerHTML = "";
+            let tT = 0, tL = 0;
+            finalData.forEach(d => {
+                tT += d.target; tL += d.lapor;
+                
+                // Pewarnaan Spesifik
+                const cssPersen = getStatusColor(d.persen).css;
+                const cssPerforma = getStatusColor(d.performa).css;
+                
+                let row = `<tr>
+                    <td class="p-3">${d.label}</td>
+                    <td class="p-3">${d.target.toLocaleString()}</td>
+                    <td class="p-3">${d.lapor.toLocaleString()}</td>
+                    <td class="p-3 ${config.type === 'cakupan' ? cssPersen : ''}">${d.persen.toFixed(2)}%</td>`;
+                
+                if (config.type === 'pb') {
+                    row += `<td class="p-3 ${cssPerforma}">${d.performa.toFixed(2)}%</td>`;
+                }
+                row += `</tr>`;
+                body.innerHTML += row;
+            });
+
+            // Update Cards
+            document.getElementById('cardTotal').textContent = tT.toLocaleString();
+            document.getElementById('cardLapor').textContent = tL.toLocaleString();
+            document.getElementById('cardPersen').textContent = (tT > 0 ? (tL/tT*100).toFixed(2) : 0) + "%";
+            
+            // Logic kartu performa
+            const containerPerforma = document.getElementById('cardPerformaContainer');
+            if (config.type === 'pb') {
+                containerPerforma.classList.remove('hidden');
+                const totalPersen = tT > 0 ? (tL / tT) * 100 : 0;
+                const totalPerforma = (totalPersen / ideal) * 100;
+                document.getElementById('cardPerforma').textContent = totalPerforma.toFixed(2) + "%";
+                document.getElementById('cardPerforma').className = `text-2xl font-bold mt-1 ${getStatusColor(totalPerforma).css}`;
+            } else {
+                containerPerforma.classList.add('hidden');
+            }
+            
+            // Grafik
+            if(chart) chart.destroy();
+            // Jika PB, warna grafik berdasarkan performa. Jika Cakupan, berdasarkan persen.
+            const bgColors = finalData.map(d => getStatusColor(config.type === 'pb' ? d.performa : d.persen).hex);
+            chart = new Chart(document.getElementById('canvasGrafik').getContext('2d'), { 
+                type: 'bar', 
+                data: { 
+                    labels: finalData.map(d => d.label), 
+                    datasets: [{ 
+                        label: config.type === 'pb' ? 'Performa %' : 'Capaian %', 
+                        data: finalData.map(d => config.type === 'pb' ? d.performa : d.persen), 
+                        backgroundColor: bgColors 
+                    }] 
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        datalabels: {
+                            anchor: 'end', align: 'top', color: '#1f2937', font: { weight: 'bold' },
+                            formatter: v => v.toFixed(2) + '%'
+                        }
+                    }
+                }
+            });
+        }
+        muatDataIndikator();
+    </script>
+</body>
+</html>
