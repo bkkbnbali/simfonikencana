@@ -36,8 +36,11 @@
                 <option value="Gianyar">Gianyar</option><option value="Klungkung">Klungkung</option><option value="Bangli">Bangli</option>
                 <option value="Karangasem">Karangasem</option><option value="Buleleng">Buleleng</option><option value="Denpasar">Denpasar</option>
             </select>
-            <select id="filterKecamatan" onchange="saringDanTampilkanData()" class="text-gray-800 bg-white p-2 rounded font-bold border border-gray-300">
+            <select id="filterKecamatan" onchange="aksiPilihKecamatan()" class="text-gray-800 bg-white p-2 rounded font-bold border border-gray-300">
                 <option value="SEMUA">-- Semua Kecamatan --</option>
+            </select>
+            <select id="filterDesa" onchange="saringDanTampilkanData()" class="text-gray-800 bg-white p-2 rounded font-bold border border-gray-300">
+                <option value="SEMUA">-- Semua Desa --</option>
             </select>
         </div>
     </header>
@@ -73,21 +76,52 @@
                 <tbody id="bodyTabel" class="divide-y text-gray-700"></tbody>
             </table>
         </div>
+
+        <div class="border-t border-gray-300 pt-6">
+            <div class="bg-white p-6 rounded-xl shadow-sm space-y-6">
+                <div>
+                    <h3 id="judulTren" class="text-lg font-bold text-blue-700 uppercase tracking-wide">Tren Capaian Bulanan</h3>
+                    <p class="text-sm text-gray-500">Menampilkan perkembangan indikator berdasarkan wilayah terpilih hingga bulan terakhir penginputan data.</p>
+                </div>
+                
+                <div class="h-80 relative">
+                    <canvas id="canvasGrafikTren"></canvas>
+                </div>
+
+                <div id="containerTabelTren" class="overflow-x-auto mt-4 hidden">
+                    <h4 class="text-sm font-bold text-gray-700 mb-2">Detail Data Bulanan Wilayah Terpilih:</h4>
+    
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead id="headTabelTren" class="bg-blue-50 text-blue-900">
+                        </thead>
+                        <tbody id="bodyTabelTren" class="divide-y border-b text-gray-700"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </main>
 
     <script>
         Chart.register(ChartDataLabels);
 
-        // Fungsi Warna (Merah: <=50, Kuning: 50-75, Hijau: 75-100, Biru: >100)
+        // Fungsi anti-error untuk membaca angka dari CSV
+        function bersihkanAngka(val) {
+            if (val === undefined || val === null || val === '') return 0;
+            let str = val.toString().trim().replace(/"/g, '').replace(/\./g, '').replace(/,/g, '.');
+            let num = parseFloat(str);
+            return isNaN(num) ? 0 : num;
+        }
+
         function getStatusColor(v) {
-            if (v < 50) return { css: "text-red-600 font-bold", hex: "#ef4444" };
-            if (v < 75) return { css: "text-yellow-600 font-bold", hex: "#eab308" };
-            if (v < 100) return { css: "text-green-600 font-bold", hex: "#22c55e" };
+            let val = Number(v) || 0;
+            if (val < 50) return { css: "text-red-600 font-bold", hex: "#ef4444" };
+            if (val < 75) return { css: "text-yellow-600 font-bold", hex: "#eab308" };
+            if (val < 100) return { css: "text-green-600 font-bold", hex: "#22c55e" };
             return { css: "text-blue-600 font-bold", hex: "#3b82f6" };
         }
 
-         const db = {
-            tpmb: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=1971994987&single=true&output=csv", type: "cakupan" }, // Ganti link
+        const db = {
+            tpmb: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=1971994987&single=true&output=csv", type: "cakupan" },
             ppkbd: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=1686763&single=true&output=csv", type: "cakupan" },
             bkb: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=773449745&single=true&output=csv", type: "cakupan" },
             bkr: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=272286834&single=true&output=csv", type: "cakupan" },
@@ -99,9 +133,11 @@
             pb_kbpp: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=956857648&single=true&output=csv", type: "pb" }
         };
 
+        const daftarBulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         const indeksBulan = { 'Januari': 1, 'Februari': 2, 'Maret': 3, 'April': 4, 'Mei': 5, 'Juni': 6, 'Juli': 7, 'Agustus': 8, 'September': 9, 'Oktober': 10, 'November': 11, 'Desember': 12 };
         let semuaDataMentah = [];
         let chart = null;
+        let chartTren = null;
 
         async function muatDataIndikator() {
             const ind = document.getElementById('filterIndikator').value;
@@ -113,122 +149,265 @@
                     return { kab: c[4]||"", kec: c[3]||"", desa: c[2]||"", seluruhKolom: c };
                 }).filter(x => x.kab);
                 aksiPilihKabupaten();
-            } catch(e) { console.error(e); alert("Gagal mengambil data, pastikan link CSV valid."); }
+            } catch(e) { console.error("Error muat data:", e); alert("Gagal mengambil data, pastikan link CSV valid."); }
         }
 
         function aksiPilihKabupaten() {
             const kab = document.getElementById('filterKabupaten').value;
             const dropKec = document.getElementById('filterKecamatan');
+            const dropDesa = document.getElementById('filterDesa');
+            
             dropKec.innerHTML = '<option value="SEMUA">-- Semua Kecamatan --</option>';
+            dropDesa.innerHTML = '<option value="SEMUA">-- Semua Desa --</option>';
+            
             if(kab !== "SEMUA") {
-                [...new Set(semuaDataMentah.filter(d => d.kab.toLowerCase().includes(kab.toLowerCase())).map(d => d.kec))].forEach(kec => {
+                const kecs = [...new Set(semuaDataMentah.filter(d => d.kab.toLowerCase().includes(kab.toLowerCase())).map(d => d.kec))];
+                kecs.forEach(kec => {
                     let o = document.createElement('option'); o.value = kec; o.textContent = kec; dropKec.appendChild(o);
                 });
             }
             saringDanTampilkanData();
         }
 
-        function saringDanTampilkanData() {
-            const ind = document.getElementById('filterIndikator').value;
-            const config = db[ind];
-            const b = indeksBulan[document.getElementById('filterBulan').value];
-            const ideal = (b / 12) * 100;
+        function aksiPilihKecamatan() {
             const kab = document.getElementById('filterKabupaten').value;
             const kec = document.getElementById('filterKecamatan').value;
-
-            const dataFiltered = semuaDataMentah.filter(d => 
-                (kab === "SEMUA" || d.kab.toLowerCase().includes(kab.toLowerCase())) &&
-                (kec === "SEMUA" || d.kec.toLowerCase().includes(kec.toLowerCase()))
-            );
-
-            const groupKey = kab === "SEMUA" ? "kab" : (kec === "SEMUA" ? "kec" : "desa");
-            const aggregated = {};
+            const dropDesa = document.getElementById('filterDesa');
             
-            dataFiltered.forEach(d => {
-                let target = config.type === 'cakupan' ? parseInt(d.seluruhKolom[5 + b]) : parseFloat(d.seluruhKolom[5]);
-                let lapor = config.type === 'cakupan' ? parseInt(d.seluruhKolom[17 + b]) : parseFloat(d.seluruhKolom[6 + (b - 1)]);
-                
-                const key = d[groupKey];
-                if (!aggregated[key]) aggregated[key] = { target: 0, lapor: 0 };
-                aggregated[key].target += (target || 0);
-                aggregated[key].lapor += (lapor || 0);
-            });
-
-            let finalData = Object.keys(aggregated).map(k => {
-                let persen = aggregated[k].target > 0 ? (aggregated[k].lapor / aggregated[k].target) * 100 : 0;
-                let performa = (config.type === 'pb' && ideal > 0) ? (persen / ideal) * 100 : persen;
-                return { label: k, target: aggregated[k].target, lapor: aggregated[k].lapor, persen, performa };
-            }).sort((a,b) => (config.type === 'pb' ? b.performa - a.performa : b.persen - a.persen));
-
-            // Update Tabel
-            const head = document.getElementById('headTabel');
-            head.innerHTML = config.type === 'pb' ? `<tr><th class="p-3">Wilayah</th><th class="p-3">Target</th><th class="p-3">Realisasi</th><th class="p-3">Capaian %</th><th class="p-3">Performa %</th></tr>` : `<tr><th class="p-3">Wilayah</th><th class="p-3">Target</th><th class="p-3">Realisasi</th><th class="p-3">Capaian %</th></tr>`;
+            dropDesa.innerHTML = '<option value="SEMUA">-- Semua Desa --</option>';
             
-            const body = document.getElementById('bodyTabel');
-            body.innerHTML = "";
-            let tT = 0, tL = 0;
-            finalData.forEach(d => {
-                tT += d.target; tL += d.lapor;
+            if(kec !== "SEMUA" && kab !== "SEMUA") {
+                const desas = [...new Set(semuaDataMentah.filter(d => 
+                    d.kab.toLowerCase().includes(kab.toLowerCase()) && 
+                    d.kec.toLowerCase().includes(kec.toLowerCase())
+                ).map(d => d.desa))];
                 
-                // Pewarnaan Spesifik
-                const cssPersen = getStatusColor(d.persen).css;
-                const cssPerforma = getStatusColor(d.performa).css;
-                
-                let row = `<tr>
-                    <td class="p-3">${d.label}</td>
-                    <td class="p-3">${d.target.toLocaleString()}</td>
-                    <td class="p-3">${d.lapor.toLocaleString()}</td>
-                    <td class="p-3 ${config.type === 'cakupan' ? cssPersen : ''}">${d.persen.toFixed(2)}%</td>`;
-                
-                if (config.type === 'pb') {
-                    row += `<td class="p-3 ${cssPerforma}">${d.performa.toFixed(2)}%</td>`;
-                }
-                row += `</tr>`;
-                body.innerHTML += row;
-            });
-
-            // Update Cards
-            document.getElementById('cardTotal').textContent = tT.toLocaleString();
-            document.getElementById('cardLapor').textContent = tL.toLocaleString();
-            document.getElementById('cardPersen').textContent = (tT > 0 ? (tL/tT*100).toFixed(2) : 0) + "%";
-            
-            // Logic kartu performa
-            const containerPerforma = document.getElementById('cardPerformaContainer');
-            if (config.type === 'pb') {
-                containerPerforma.classList.remove('hidden');
-                const totalPersen = tT > 0 ? (tL / tT) * 100 : 0;
-                const totalPerforma = (totalPersen / ideal) * 100;
-                document.getElementById('cardPerforma').textContent = totalPerforma.toFixed(2) + "%";
-                document.getElementById('cardPerforma').className = `text-2xl font-bold mt-1 ${getStatusColor(totalPerforma).css}`;
-            } else {
-                containerPerforma.classList.add('hidden');
+                desas.forEach(desa => {
+                    let o = document.createElement('option'); o.value = desa; o.textContent = desa; dropDesa.appendChild(o);
+                });
             }
-            
-            // Grafik
-            if(chart) chart.destroy();
-            // Jika PB, warna grafik berdasarkan performa. Jika Cakupan, berdasarkan persen.
-            const bgColors = finalData.map(d => getStatusColor(config.type === 'pb' ? d.performa : d.persen).hex);
-            chart = new Chart(document.getElementById('canvasGrafik').getContext('2d'), { 
-                type: 'bar', 
-                data: { 
-                    labels: finalData.map(d => d.label), 
-                    datasets: [{ 
-                        label: config.type === 'pb' ? 'Performa %' : 'Capaian %', 
-                        data: finalData.map(d => config.type === 'pb' ? d.performa : d.persen), 
-                        backgroundColor: bgColors 
-                    }] 
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: {
-                        datalabels: {
-                            anchor: 'end', align: 'top', color: '#1f2937', font: { weight: 'bold' },
-                            formatter: v => v.toFixed(2) + '%'
-                        }
-                    }
-                }
-            });
+            saringDanTampilkanData();
         }
+
+        function saringDanTampilkanData() {
+    const ind = document.getElementById('filterIndikator').value;
+    const config = db[ind];
+    const b = indeksBulan[document.getElementById('filterBulan').value];
+    const ideal = (b / 12) * 100;
+    const kab = document.getElementById('filterKabupaten').value;
+    const kec = document.getElementById('filterKecamatan').value;
+    const desa = document.getElementById('filterDesa').value;
+
+    const dataFiltered = semuaDataMentah.filter(d => 
+        (kab === "SEMUA" || d.kab.toLowerCase().includes(kab.toLowerCase())) &&
+        (kec === "SEMUA" || d.kec.toLowerCase().includes(kec.toLowerCase())) &&
+        (desa === "SEMUA" || d.desa.toLowerCase().includes(desa.toLowerCase()))
+    );
+
+    const groupKey = kab === "SEMUA" ? "kab" : (kec === "SEMUA" ? "kec" : "desa");
+    const aggregated = {};
+    
+    dataFiltered.forEach(d => {
+        let target = 0, lapor = 0;
+        if (config.type === 'cakupan') {
+            target = bersihkanAngka(d.seluruhKolom[5 + (b - 1)]);
+            lapor = bersihkanAngka(d.seluruhKolom[17 + (b - 1)]);
+        } else {
+            target = bersihkanAngka(d.seluruhKolom[5]);
+            lapor = bersihkanAngka(d.seluruhKolom[6 + (b - 1)]);
+        }
+        
+        const key = d[groupKey] || "Tidak Diketahui";
+        if (!aggregated[key]) aggregated[key] = { target: 0, lapor: 0 };
+        aggregated[key].target += target;
+        aggregated[key].lapor += lapor;
+    });
+
+    let finalData = Object.keys(aggregated).map(k => {
+        let persen = aggregated[k].target > 0 ? (aggregated[k].lapor / aggregated[k].target) * 100 : 0;
+        let performa = (config.type === 'pb' && ideal > 0) ? (persen / ideal) * 100 : persen;
+        return { label: k, target: aggregated[k].target, lapor: aggregated[k].lapor, persen, performa };
+    }).sort((a,b) => (config.type === 'pb' ? b.performa - a.performa : b.persen - a.persen));
+
+    const head = document.getElementById('headTabel');
+    head.innerHTML = config.type === 'pb' ? `<tr><th class="p-3">Wilayah</th><th class="p-3">Target</th><th class="p-3">Realisasi</th><th class="p-3">Capaian %</th><th class="p-3">Performa %</th></tr>` : `<tr><th class="p-3">Wilayah</th><th class="p-3">Target</th><th class="p-3">Realisasi</th><th class="p-3">Capaian %</th></tr>`;
+    
+    const body = document.getElementById('bodyTabel');
+    body.innerHTML = "";
+    let tT = 0, tL = 0;
+    finalData.forEach(d => {
+        tT += d.target; tL += d.lapor;
+        
+        const cssPerforma = getStatusColor(d.performa).css;
+        const cssPersen = (config.type === 'pb') ? cssPerforma : getStatusColor(d.persen).css;
+        
+        let row = `<tr>
+            <td class="p-3 font-semibold">${d.label}</td>
+            <td class="p-3">${d.target.toLocaleString('id-ID')}</td>
+            <td class="p-3">${d.lapor.toLocaleString('id-ID')}</td>
+            <td class="p-3 ${cssPersen}">${(Number(d.persen) || 0).toFixed(2)}%</td>`;
+        
+        if (config.type === 'pb') {
+            row += `<td class="p-3 ${cssPerforma}">${(Number(d.performa) || 0).toFixed(2)}%</td>`;
+        }
+        row += `</tr>`;
+        body.innerHTML += row;
+    });
+
+    document.getElementById('cardTotal').textContent = tT.toLocaleString('id-ID');
+    document.getElementById('cardLapor').textContent = tL.toLocaleString('id-ID');
+
+    // Hitung nilai total
+    const totalPersen = tT > 0 ? (tL / tT) * 100 : 0;
+    const totalPerforma = (totalPersen / ideal) * 100;
+
+    // Update Tampilan Card Capaian (%)
+    const cardPersenEl = document.getElementById('cardPersen');
+    cardPersenEl.textContent = totalPersen.toFixed(2) + "%";
+
+    // LOGIKA PEWARNAAN CARD: Jika PB, Capaian ikut Performa. Jika Cakupan, ikut Capaian sendiri.
+    const warnaBaru = (config.type === 'pb') ? getStatusColor(totalPerforma).css : getStatusColor(totalPersen).css;
+    cardPersenEl.className = `text-2xl font-bold mt-1 ${warnaBaru}`;
+    
+    const containerPerforma = document.getElementById('cardPerformaContainer');
+    if (config.type === 'pb') {
+        containerPerforma.classList.remove('hidden');
+        document.getElementById('cardPerforma').textContent = (Number(totalPerforma) || 0).toFixed(2) + "%";
+        document.getElementById('cardPerforma').className = `text-2xl font-bold mt-1 ${getStatusColor(totalPerforma).css}`;
+    } else {
+        containerPerforma.classList.add('hidden');
+    }
+    
+    if(chart) chart.destroy();
+    const bgColors = finalData.map(d => getStatusColor(config.type === 'pb' ? d.performa : d.persen).hex);
+    chart = new Chart(document.getElementById('canvasGrafik').getContext('2d'), { 
+        type: 'bar', 
+        data: { 
+            labels: finalData.map(d => d.label), 
+            datasets: [{ 
+                label: config.type === 'pb' ? 'Performa %' : 'Capaian %', 
+                data: finalData.map(d => config.type === 'pb' ? d.performa : d.persen), 
+                backgroundColor: bgColors 
+            }] 
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: {
+                datalabels: {
+                    anchor: 'end', align: 'top', color: '#1f2937', font: { weight: 'bold' },
+                    formatter: v => (Number(v) || 0).toFixed(2) + '%'
+                }
+            }
+        }
+    });
+
+    hitungDanTampilkanTren(dataFiltered, config);
+}
+
+        function hitungDanTampilkanTren(dataFiltered, config) {
+    const containerTabelTren = document.getElementById('containerTabelTren');
+    const headTabelTren = document.getElementById('headTabelTren');
+    const bodyTabelTren = document.getElementById('bodyTabelTren');
+    
+    // 1. CARI BATAS BULAN TERAKHIR
+    let maxBulan = 0;
+    for (let i = 0; i < 12; i++) {
+        let totalLaporProv = 0;
+        semuaDataMentah.forEach(d => {
+            totalLaporProv += config.type === 'cakupan' ? bersihkanAngka(d.seluruhKolom[17 + i]) : bersihkanAngka(d.seluruhKolom[6 + i]);
+        });
+        if (totalLaporProv > 0) maxBulan = i + 1;
+    }
+    if (maxBulan === 0) maxBulan = 1;
+
+    // 2. GENERATE HEADER
+    let headerHtml = `<tr>
+        <th class="p-2 border">Bulan</th>
+        <th class="p-2 border">Target / Ada</th>
+        <th class="p-2 border">Realisasi / Lapor</th>
+        <th class="p-2 border">Capaian %</th>`;
+    if (config.type === 'pb') {
+        headerHtml += `<th class="p-2 border">Performa %</th>`;
+    }
+    headerHtml += `</tr>`;
+    headTabelTren.innerHTML = headerHtml;
+
+    containerTabelTren.classList.remove('hidden');
+    bodyTabelTren.innerHTML = "";
+    
+    let labels = [], values = [];
+
+    // 3. LOOP DATA PER BULAN
+    for (let i = 0; i < maxBulan; i++) {
+        const b = i + 1;
+        const idealBulanKe = (b / 12) * 100;
+        let totalTarget = 0, totalLapor = 0;
+
+        dataFiltered.forEach(d => {
+            let target = config.type === 'cakupan' ? bersihkanAngka(d.seluruhKolom[5 + i]) : bersihkanAngka(d.seluruhKolom[5]);
+            let lapor = config.type === 'cakupan' ? bersihkanAngka(d.seluruhKolom[17 + i]) : bersihkanAngka(d.seluruhKolom[6 + i]);
+            totalTarget += target;
+            totalLapor += lapor;
+        });
+        
+        let persen = totalTarget > 0 ? (totalLapor / totalTarget) * 100 : 0;
+        let performa = (config.type === 'pb' && idealBulanKe > 0) ? (persen / idealBulanKe) * 100 : persen;
+
+        // --- LOGIKA PEWARNAAN ---
+        // Jika PB, warna Capaian ikut status Performa. Jika Cakupan, ikut status Capaian.
+        const statusPerforma = getStatusColor(performa);
+        const statusPersen = (config.type === 'pb') ? statusPerforma : getStatusColor(persen);
+
+        // 4. ISI TABEL
+        let row = `<tr>
+            <td class="p-2 border font-medium">${daftarBulan[i]}</td>
+            <td class="p-2 border">${totalTarget.toLocaleString()}</td>
+            <td class="p-2 border">${totalLapor.toLocaleString()}</td>
+            <td class="p-2 border ${statusPersen.css}">${persen.toFixed(2)}%</td>`;
+        
+        if (config.type === 'pb') {
+            row += `<td class="p-2 border ${statusPerforma.css}">${performa.toFixed(2)}%</td>`;
+        }
+        row += `</tr>`;
+        bodyTabelTren.innerHTML += row;
+
+        labels.push(daftarBulan[i]);
+        values.push(config.type === 'pb' ? performa : persen);
+    }
+
+    // 5. RENDER GRAFIK
+    if(chartTren) chartTren.destroy();
+    chartTren = new Chart(document.getElementById('canvasGrafikTren').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: config.type === 'pb' ? 'Performa Kinerja (%)' : 'Persentase Capaian (%)',
+                data: values,
+                borderColor: '#2563eb',
+                backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                borderWidth: 3,
+                tension: 0.2,
+                fill: true,
+                pointRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                datalabels: {
+                    anchor: 'top', align: 'top', color: '#4b5563', font: { weight: 'bold', size: 10 },
+                    formatter: v => (Number(v) || 0).toFixed(1) + '%'
+                }
+            },
+            scales: {
+                y: { beginAtZero: true, max: config.type === 'pb' ? Math.max(...values, 110) : 120 }
+            }
+        }
+    });
+}
+
         muatDataIndikator();
     </script>
 </body>
