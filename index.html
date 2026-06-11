@@ -22,6 +22,17 @@
                 <optgroup label="Capaian Kinerja (Target/Realisasi)">
                     <option value="pb_total">PB Total</option><option value="pb_mkjp">PB MKJP</option>
                     <option value="pb_kbpp">PB KBPP</option>
+                    <option value="baduta_ikut_kerabat">Baduta Ikut Kerabat</option>
+                    <option value="pertemuan_pikr">Pertemuan PIK-R</option>
+                    <option value="pendampingan_catin">Pendampingan Catin di ELSIMIL</option>
+                    <option value="gati_pengetahuan_ayah">GATI-Pengetahuan Ayah Mengasuh</option>
+                    <option value="kel_ikut_bkb">Kelompok Ikut BKB</option>
+                    <option value="bkb_hadir">BKB Hadir Pertemuan</option>
+                    <option value="anak_terpantau_kka">Anak Terpantau KKA</option>
+                    <option value="bkr_hadir">Anggota & Bukan Anggota BKR Hadir Pertemuan</option>
+                    <option value="ikut_bkl">Keluarga Ikut BKL</option>
+                    <option value="bkl_hadir">AnggotabBKL Hadir Kegiatan</option>
+                    <option value="uppka_hadir">Anggota UPPKA Hadir Kegiatan</option>
                 </optgroup>
             </select>
             <select id="filterBulan" onchange="saringDanTampilkanData()" class="text-gray-800 bg-white p-2 rounded font-bold border border-gray-300">
@@ -130,7 +141,18 @@
             pikr: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=277045311&single=true&output=csv", type: "cakupan" },
             pb_total: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=903350473&single=true&output=csv", type: "pb" },
             pb_mkjp: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=1894993991&single=true&output=csv", type: "pb" },
-            pb_kbpp: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=956857648&single=true&output=csv", type: "pb" }
+            pb_kbpp: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=956857648&single=true&output=csv", type: "pb" },
+            baduta_ikut_kerabat: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=379354699&single=true&output=csv", type: "pb" },
+            pertemuan_pikr: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=1368350439&single=true&output=csv", type: "pb" },
+            pendampingan_catin: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=985540442&single=true&output=csv", type: "pb" },
+            gati_pengetahuan_ayah: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=1720936518&single=true&output=csv", type: "pb" },
+            kel_ikut_bkb: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=155240312&single=true&output=csv", type: "kinerja" },
+            bkb_hadir: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=628945521&single=true&output=csv", type: "kinerja" },
+            anak_terpantau_kka: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=1353670710&single=true&output=csv", type: "kinerja" },
+            bkr_hadir: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=1524730373&single=true&output=csv", type: "kinerja" },
+            ikut_bkl: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=1178655140&single=true&output=csv", type: "kinerja" },
+            bkl_hadir: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=546950622&single=true&output=csv", type: "kinerja" },
+            uppka_hadir: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=421346896&single=true&output=csv", type: "kinerja" }
         };
 
         const daftarBulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
@@ -235,9 +257,9 @@
     const body = document.getElementById('bodyTabel');
     body.innerHTML = "";
     let tT = 0, tL = 0;
+    
     finalData.forEach(d => {
         tT += d.target; tL += d.lapor;
-        
         const cssPerforma = getStatusColor(d.performa).css;
         const cssPersen = (config.type === 'pb') ? cssPerforma : getStatusColor(d.persen).css;
         
@@ -246,7 +268,6 @@
             <td class="p-3">${d.target.toLocaleString('id-ID')}</td>
             <td class="p-3">${d.lapor.toLocaleString('id-ID')}</td>
             <td class="p-3 ${cssPersen}">${(Number(d.persen) || 0).toFixed(2)}%</td>`;
-        
         if (config.type === 'pb') {
             row += `<td class="p-3 ${cssPerforma}">${(Number(d.performa) || 0).toFixed(2)}%</td>`;
         }
@@ -254,20 +275,16 @@
         body.innerHTML += row;
     });
 
+    // Update Card
     document.getElementById('cardTotal').textContent = tT.toLocaleString('id-ID');
     document.getElementById('cardLapor').textContent = tL.toLocaleString('id-ID');
-
-    // Hitung nilai total
+    
     const totalPersen = tT > 0 ? (tL / tT) * 100 : 0;
     const totalPerforma = (totalPersen / ideal) * 100;
-
-    // Update Tampilan Card Capaian (%)
     const cardPersenEl = document.getElementById('cardPersen');
+    
     cardPersenEl.textContent = totalPersen.toFixed(2) + "%";
-
-    // LOGIKA PEWARNAAN CARD: Jika PB, Capaian ikut Performa. Jika Cakupan, ikut Capaian sendiri.
-    const warnaBaru = (config.type === 'pb') ? getStatusColor(totalPerforma).css : getStatusColor(totalPersen).css;
-    cardPersenEl.className = `text-2xl font-bold mt-1 ${warnaBaru}`;
+    cardPersenEl.className = `text-2xl font-bold mt-1 ${(config.type === 'pb') ? getStatusColor(totalPerforma).css : getStatusColor(totalPersen).css}`;
     
     const containerPerforma = document.getElementById('cardPerformaContainer');
     if (config.type === 'pb') {
@@ -297,6 +314,12 @@
                     anchor: 'end', align: 'top', color: '#1f2937', font: { weight: 'bold' },
                     formatter: v => (Number(v) || 0).toFixed(2) + '%'
                 }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    suggestedMax: Math.ceil(Math.max(...finalData.map(d => config.type === 'pb' ? d.performa : d.persen)) * 1.1)
+                }
             }
         }
     });
@@ -322,14 +345,14 @@
 
     // 2. GENERATE HEADER
     let headerHtml = `<tr>
-        <th class="p-2 border">Bulan</th>
-        <th class="p-2 border">Target / Ada</th>
-        <th class="p-2 border">Realisasi / Lapor</th>
-        <th class="p-2 border">Capaian %</th>`;
+    <th class="p-2 border">Bulan</th>
+    <th class="p-2 border">Target / Ada</th>
+    <th class="p-2 border">Realisasi / Lapor</th>
+    <th class="p-2 border">Capaian %</th>`;
     if (config.type === 'pb') {
         headerHtml += `<th class="p-2 border">Performa %</th>`;
-    }
-    headerHtml += `</tr>`;
+            }       
+        headerHtml += `</tr>`;
     headTabelTren.innerHTML = headerHtml;
 
     containerTabelTren.classList.remove('hidden');
@@ -358,17 +381,16 @@
         const statusPerforma = getStatusColor(performa);
         const statusPersen = (config.type === 'pb') ? statusPerforma : getStatusColor(persen);
 
-        // 4. ISI TABEL
         let row = `<tr>
             <td class="p-2 border font-medium">${daftarBulan[i]}</td>
             <td class="p-2 border">${totalTarget.toLocaleString()}</td>
             <td class="p-2 border">${totalLapor.toLocaleString()}</td>
             <td class="p-2 border ${statusPersen.css}">${persen.toFixed(2)}%</td>`;
-        
+
         if (config.type === 'pb') {
             row += `<td class="p-2 border ${statusPerforma.css}">${performa.toFixed(2)}%</td>`;
         }
-        row += `</tr>`;
+            row += `</tr>`;
         bodyTabelTren.innerHTML += row;
 
         labels.push(daftarBulan[i]);
@@ -402,7 +424,11 @@
                 }
             },
             scales: {
-                y: { beginAtZero: true, max: config.type === 'pb' ? Math.max(...values, 110) : 120 }
+                y: { 
+                    beginAtZero: true, 
+                    // Rumus dinamis: ambil nilai tertinggi, tambahkan 10% agar tidak mentok atas
+                    max: Math.ceil(Math.max(...values, 100) * 1.1) 
+                }
             }
         }
     });
