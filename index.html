@@ -31,8 +31,9 @@
                     <option value="anak_terpantau_kka">Anak Terpantau KKA</option>
                     <option value="bkr_hadir">Anggota & Bukan Anggota BKR Hadir Pertemuan</option>
                     <option value="ikut_bkl">Keluarga Ikut BKL</option>
-                    <option value="bkl_hadir">AnggotabBKL Hadir Kegiatan</option>
+                    <option value="bkl_hadir">Anggota BKL Hadir Kegiatan</option>
                     <option value="uppka_hadir">Anggota UPPKA Hadir Kegiatan</option>
+                    <option value="PA_MKJP">PA MKJP</option>
                 </optgroup>
             </select>
             <select id="filterBulan" onchange="saringDanTampilkanData()" class="text-gray-800 bg-white p-2 rounded font-bold border border-gray-300">
@@ -57,17 +58,22 @@
     </header>
 
     <main class="p-6 max-w-7xl mx-auto space-y-6">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <!-- Grid card dinamis (bisa 4 atau 5 kolom tergantung indikator) -->
+        <div id="cardContainer" class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div id="cardTargetKonstanContainer" class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-indigo-500 hidden">
+                <p class="text-xs font-semibold uppercase text-gray-500">TARGET</p>
+                <p id="cardTargetKonstan" class="text-2xl font-bold mt-1 text-gray-800">49.5%</p>
+            </div>
             <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-blue-500">
-                <p class="text-xs font-semibold uppercase text-gray-500">TARGET / ADA</p>
+                <p id="labelCard1" class="text-xs font-semibold uppercase text-gray-500">TARGET / ADA</p>
                 <p id="cardTotal" class="text-2xl font-bold mt-1 text-gray-800">0</p>
             </div>
             <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-green-500">
-                <p class="text-xs font-semibold uppercase text-gray-500">REALISASI / LAPOR</p>
+                <p id="labelCard2" class="text-xs font-semibold uppercase text-gray-500">REALISASI / LAPOR</p>
                 <p id="cardLapor" class="text-2xl font-bold mt-1 text-gray-800">0</p>
             </div>
             <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-yellow-500">
-                <p class="text-xs font-semibold uppercase text-gray-500">CAPAIAN (%)</p>
+                <p id="labelCardCapaian" class="text-xs font-semibold uppercase text-gray-500">CAPAIAN (%)</p>
                 <p id="cardPersen" class="text-2xl font-bold mt-1 text-gray-800">0%</p>
             </div>
             <div id="cardPerformaContainer" class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-purple-500 hidden">
@@ -115,7 +121,6 @@
     <script>
         Chart.register(ChartDataLabels);
 
-        // Fungsi anti-error untuk membaca angka dari CSV
         function bersihkanAngka(val) {
             if (val === undefined || val === null || val === '') return 0;
             let str = val.toString().trim().replace(/"/g, '').replace(/\./g, '').replace(/,/g, '.');
@@ -152,8 +157,9 @@
             bkr_hadir: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=1524730373&single=true&output=csv", type: "kinerja" },
             ikut_bkl: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=1178655140&single=true&output=csv", type: "kinerja" },
             bkl_hadir: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=546950622&single=true&output=csv", type: "kinerja" },
-            uppka_hadir: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=421346896&single=true&output=csv", type: "kinerja" }
-        };
+            uppka_hadir: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=421346896&single=true&output=csv", type: "kinerja" },
+            PA_MKJP: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=1748139363&single=true&output=csv", type: "pa_mkjp" }
+        };  
 
         const daftarBulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         const indeksBulan = { 'Januari': 1, 'Februari': 2, 'Maret': 3, 'April': 4, 'Mei': 5, 'Juni': 6, 'Juli': 7, 'Agustus': 8, 'September': 9, 'Oktober': 10, 'November': 11, 'Desember': 12 };
@@ -212,227 +218,290 @@
         }
 
         function saringDanTampilkanData() {
-    const ind = document.getElementById('filterIndikator').value;
-    const config = db[ind];
-    const b = indeksBulan[document.getElementById('filterBulan').value];
-    const ideal = (b / 12) * 100;
-    const kab = document.getElementById('filterKabupaten').value;
-    const kec = document.getElementById('filterKecamatan').value;
-    const desa = document.getElementById('filterDesa').value;
+            const ind = document.getElementById('filterIndikator').value;
+            const config = db[ind];
+            const b = indeksBulan[document.getElementById('filterBulan').value];
+            const ideal = (b / 12) * 100;
+            const kab = document.getElementById('filterKabupaten').value;
+            const kec = document.getElementById('filterKecamatan').value;
+            const desa = document.getElementById('filterDesa').value;
 
-    const dataFiltered = semuaDataMentah.filter(d => 
-        (kab === "SEMUA" || d.kab.toLowerCase().includes(kab.toLowerCase())) &&
-        (kec === "SEMUA" || d.kec.toLowerCase().includes(kec.toLowerCase())) &&
-        (desa === "SEMUA" || d.desa.toLowerCase().includes(desa.toLowerCase()))
-    );
+            const dataFiltered = semuaDataMentah.filter(d => 
+                (kab === "SEMUA" || d.kab.toLowerCase().includes(kab.toLowerCase())) &&
+                (kec === "SEMUA" || d.kec.toLowerCase().includes(kec.toLowerCase())) &&
+                (desa === "SEMUA" || d.desa.toLowerCase().includes(desa.toLowerCase()))
+            );
 
-    const groupKey = kab === "SEMUA" ? "kab" : (kec === "SEMUA" ? "kec" : "desa");
-    const aggregated = {};
-    
-    dataFiltered.forEach(d => {
-        let target = 0, lapor = 0;
-        if (config.type === 'cakupan') {
-            target = bersihkanAngka(d.seluruhKolom[5 + (b - 1)]);
-            lapor = bersihkanAngka(d.seluruhKolom[17 + (b - 1)]);
-        } else {
-            target = bersihkanAngka(d.seluruhKolom[5]);
-            lapor = bersihkanAngka(d.seluruhKolom[6 + (b - 1)]);
-        }
-        
-        const key = d[groupKey] || "Tidak Diketahui";
-        if (!aggregated[key]) aggregated[key] = { target: 0, lapor: 0 };
-        aggregated[key].target += target;
-        aggregated[key].lapor += lapor;
-    });
-
-    let finalData = Object.keys(aggregated).map(k => {
-        let persen = aggregated[k].target > 0 ? (aggregated[k].lapor / aggregated[k].target) * 100 : 0;
-        let performa = (config.type === 'pb' && ideal > 0) ? (persen / ideal) * 100 : persen;
-        return { label: k, target: aggregated[k].target, lapor: aggregated[k].lapor, persen, performa };
-    }).sort((a,b) => (config.type === 'pb' ? b.performa - a.performa : b.persen - a.persen));
-
-    const head = document.getElementById('headTabel');
-    head.innerHTML = config.type === 'pb' ? `<tr><th class="p-3">Wilayah</th><th class="p-3">Target</th><th class="p-3">Realisasi</th><th class="p-3">Capaian %</th><th class="p-3">Performa %</th></tr>` : `<tr><th class="p-3">Wilayah</th><th class="p-3">Target</th><th class="p-3">Realisasi</th><th class="p-3">Capaian %</th></tr>`;
-    
-    const body = document.getElementById('bodyTabel');
-    body.innerHTML = "";
-    let tT = 0, tL = 0;
-    
-    finalData.forEach(d => {
-        tT += d.target; tL += d.lapor;
-        const cssPerforma = getStatusColor(d.performa).css;
-        const cssPersen = (config.type === 'pb') ? cssPerforma : getStatusColor(d.persen).css;
-        
-        let row = `<tr>
-            <td class="p-3 font-semibold">${d.label}</td>
-            <td class="p-3">${d.target.toLocaleString('id-ID')}</td>
-            <td class="p-3">${d.lapor.toLocaleString('id-ID')}</td>
-            <td class="p-3 ${cssPersen}">${(Number(d.persen) || 0).toFixed(2)}%</td>`;
-        if (config.type === 'pb') {
-            row += `<td class="p-3 ${cssPerforma}">${(Number(d.performa) || 0).toFixed(2)}%</td>`;
-        }
-        row += `</tr>`;
-        body.innerHTML += row;
-    });
-
-    // Update Card
-    document.getElementById('cardTotal').textContent = tT.toLocaleString('id-ID');
-    document.getElementById('cardLapor').textContent = tL.toLocaleString('id-ID');
-    
-    const totalPersen = tT > 0 ? (tL / tT) * 100 : 0;
-    const totalPerforma = (totalPersen / ideal) * 100;
-    const cardPersenEl = document.getElementById('cardPersen');
-    
-    cardPersenEl.textContent = totalPersen.toFixed(2) + "%";
-    cardPersenEl.className = `text-2xl font-bold mt-1 ${(config.type === 'pb') ? getStatusColor(totalPerforma).css : getStatusColor(totalPersen).css}`;
-    
-    const containerPerforma = document.getElementById('cardPerformaContainer');
-    if (config.type === 'pb') {
-        containerPerforma.classList.remove('hidden');
-        document.getElementById('cardPerforma').textContent = (Number(totalPerforma) || 0).toFixed(2) + "%";
-        document.getElementById('cardPerforma').className = `text-2xl font-bold mt-1 ${getStatusColor(totalPerforma).css}`;
-    } else {
-        containerPerforma.classList.add('hidden');
-    }
-    
-    if(chart) chart.destroy();
-    const bgColors = finalData.map(d => getStatusColor(config.type === 'pb' ? d.performa : d.persen).hex);
-    chart = new Chart(document.getElementById('canvasGrafik').getContext('2d'), { 
-        type: 'bar', 
-        data: { 
-            labels: finalData.map(d => d.label), 
-            datasets: [{ 
-                label: config.type === 'pb' ? 'Performa %' : 'Capaian %', 
-                data: finalData.map(d => config.type === 'pb' ? d.performa : d.persen), 
-                backgroundColor: bgColors 
-            }] 
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: {
-                datalabels: {
-                    anchor: 'end', align: 'top', color: '#1f2937', font: { weight: 'bold' },
-                    formatter: v => (Number(v) || 0).toFixed(2) + '%'
+            const groupKey = kab === "SEMUA" ? "kab" : (kec === "SEMUA" ? "kec" : "desa");
+            const aggregated = {};
+            
+            dataFiltered.forEach(d => {
+                let target = 0, lapor = 0;
+                
+                if (config.type === 'cakupan') {
+                    target = bersihkanAngka(d.seluruhKolom[5 + (b - 1)]);
+                    lapor = bersihkanAngka(d.seluruhKolom[17 + (b - 1)]);
+                } else if (config.type === 'pa_mkjp') {
+                    target = bersihkanAngka(d.seluruhKolom[5 + (b - 1)]);
+                    lapor = bersihkanAngka(d.seluruhKolom[17 + (b - 1)]);
+                } else {
+                    target = bersihkanAngka(d.seluruhKolom[5]);
+                    lapor = bersihkanAngka(d.seluruhKolom[6 + (b - 1)]);
                 }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    suggestedMax: Math.ceil(Math.max(...finalData.map(d => config.type === 'pb' ? d.performa : d.persen)) * 1.1)
+                
+                const key = d[groupKey] || "Tidak Diketahui";
+                if (!aggregated[key]) aggregated[key] = { target: 0, lapor: 0 };
+                aggregated[key].target += target;
+                aggregated[key].lapor += lapor;
+            });
+
+            let finalData = Object.keys(aggregated).map(k => {
+                let persen = aggregated[k].target > 0 ? (aggregated[k].lapor / aggregated[k].target) * 100 : 0;
+                let performa = persen; 
+                
+                if (config.type === 'pb' && ideal > 0) {
+                    performa = (persen / ideal) * 100;
+                } else if (config.type === 'pa_mkjp') {
+                    performa = (persen / 49.5) * 100; 
                 }
+                
+                return { label: k, target: aggregated[k].target, lapor: aggregated[k].lapor, persen, performa };
+            }).sort((a,b) => (config.type === 'pb' || config.type === 'pa_mkjp' ? b.performa - a.performa : b.persen - a.persen));
+
+            // Setup Header Tabel
+            const head = document.getElementById('headTabel');
+            let headerTabelHtml = `<tr><th class="p-3">Wilayah</th>`;
+            if (config.type === 'pa_mkjp') {
+                headerTabelHtml += `<th class="p-3">Jumlah PA Modern</th><th class="p-3">Jumlah PA MKJP</th><th class="p-3">% PA MKJP</th>`;
+            } else {
+                headerTabelHtml += `<th class="p-3">Target</th><th class="p-3">Realisasi</th><th class="p-3">Capaian %</th>`;
             }
-        }
-    });
+            if (config.type === 'pb' || config.type === 'pa_mkjp') {
+                headerTabelHtml += `<th class="p-3">Performa %</th>`;
+            }
+            headerTabelHtml += `</tr>`;
+            head.innerHTML = headerTabelHtml;
+            
+            // Setup Body Tabel
+            const body = document.getElementById('bodyTabel');
+            body.innerHTML = "";
+            let tT = 0, tL = 0;
+            
+            finalData.forEach(d => {
+                tT += d.target; tL += d.lapor;
+                const cssPerforma = getStatusColor(d.performa).css;
+                const cssPersen = (config.type === 'pb' || config.type === 'pa_mkjp') ? cssPerforma : getStatusColor(d.persen).css;
+                
+                let row = `<tr>
+                    <td class="p-3 font-semibold">${d.label}</td>
+                    <td class="p-3">${d.target.toLocaleString('id-ID')}</td>
+                    <td class="p-3">${d.lapor.toLocaleString('id-ID')}</td>
+                    <td class="p-3 ${cssPersen}">${(Number(d.persen) || 0).toFixed(2)}%</td>`;
+                if (config.type === 'pb' || config.type === 'pa_mkjp') {
+                    row += `<td class="p-3 ${cssPerforma}">${(Number(d.performa) || 0).toFixed(2)}%</td>`;
+                }
+                row += `</tr>`;
+                body.innerHTML += row;
+            });
 
-    hitungDanTampilkanTren(dataFiltered, config);
-}
+            // Update Kartu Total
+            document.getElementById('cardTotal').textContent = tT.toLocaleString('id-ID');
+            document.getElementById('cardLapor').textContent = tL.toLocaleString('id-ID');
+            
+            const totalPersen = tT > 0 ? (tL / tT) * 100 : 0;
+            let totalPerforma = totalPersen;
+            if (config.type === 'pb' && ideal > 0) totalPerforma = (totalPersen / ideal) * 100;
+            else if (config.type === 'pa_mkjp') totalPerforma = (totalPersen / 49.5) * 100;
+
+            const cardPersenEl = document.getElementById('cardPersen');
+            cardPersenEl.textContent = totalPersen.toFixed(2) + "%";
+            cardPersenEl.className = `text-2xl font-bold mt-1 ${(config.type === 'pb' || config.type === 'pa_mkjp') ? getStatusColor(totalPerforma).css : getStatusColor(totalPersen).css}`;
+            
+            // Konfigurasi Visibilitas Kolom & Label Card
+            const cardContainer = document.getElementById('cardContainer');
+            const label1 = document.getElementById('labelCard1');
+            const label2 = document.getElementById('labelCard2');
+            const labelCapaian = document.getElementById('labelCardCapaian'); // Id baru
+            const targetTetapContainer = document.getElementById('cardTargetKonstanContainer');
+
+            if (config.type === 'pa_mkjp') {
+                label1.textContent = "JUMLAH PA MODERN";
+                label2.textContent = "JUMLAH PA MKJP";
+                labelCapaian.textContent = "% PA MKJP"; // Teks diubah ke % PA MKJP
+                targetTetapContainer.classList.remove('hidden');
+                cardContainer.className = "grid grid-cols-2 md:grid-cols-5 gap-6";
+            } else {
+                label1.textContent = "TARGET / ADA";
+                label2.textContent = "REALISASI / LAPOR";
+                labelCapaian.textContent = "CAPAIAN (%)"; // Kembali ke asalnya
+                targetTetapContainer.classList.add('hidden');
+                cardContainer.className = "grid grid-cols-2 md:grid-cols-4 gap-6";
+            }
+
+            const containerPerforma = document.getElementById('cardPerformaContainer');
+            if (config.type === 'pb' || config.type === 'pa_mkjp') {
+                containerPerforma.classList.remove('hidden');
+                document.getElementById('cardPerforma').textContent = (Number(totalPerforma) || 0).toFixed(2) + "%";
+                document.getElementById('cardPerforma').className = `text-2xl font-bold mt-1 ${getStatusColor(totalPerforma).css}`;
+            } else {
+                containerPerforma.classList.add('hidden');
+            }
+            
+            // Grafik
+            if(chart) chart.destroy();
+            const isPerformaMode = config.type === 'pb' || config.type === 'pa_mkjp';
+            const bgColors = finalData.map(d => getStatusColor(isPerformaMode ? d.performa : d.persen).hex);
+            
+            chart = new Chart(document.getElementById('canvasGrafik').getContext('2d'), { 
+                type: 'bar', 
+                data: { 
+                    labels: finalData.map(d => d.label), 
+                    datasets: [{ 
+                        label: isPerformaMode ? 'Performa %' : 'Capaian %', 
+                        data: finalData.map(d => isPerformaMode ? d.performa : d.persen), 
+                        backgroundColor: bgColors 
+                    }] 
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        datalabels: {
+                            anchor: 'end', align: 'top', color: '#1f2937', font: { weight: 'bold' },
+                            formatter: v => (Number(v) || 0).toFixed(2) + '%'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            suggestedMax: Math.ceil(Math.max(...finalData.map(d => isPerformaMode ? d.performa : d.persen)) * 1.1)
+                        }
+                    }
+                }
+            });
+
+            hitungDanTampilkanTren(dataFiltered, config);
+        }
 
         function hitungDanTampilkanTren(dataFiltered, config) {
-    const containerTabelTren = document.getElementById('containerTabelTren');
-    const headTabelTren = document.getElementById('headTabelTren');
-    const bodyTabelTren = document.getElementById('bodyTabelTren');
-    
-    // 1. CARI BATAS BULAN TERAKHIR
-    let maxBulan = 0;
-    for (let i = 0; i < 12; i++) {
-        let totalLaporProv = 0;
-        semuaDataMentah.forEach(d => {
-            totalLaporProv += config.type === 'cakupan' ? bersihkanAngka(d.seluruhKolom[17 + i]) : bersihkanAngka(d.seluruhKolom[6 + i]);
-        });
-        if (totalLaporProv > 0) maxBulan = i + 1;
-    }
-    if (maxBulan === 0) maxBulan = 1;
-
-    // 2. GENERATE HEADER
-    let headerHtml = `<tr>
-    <th class="p-2 border">Bulan</th>
-    <th class="p-2 border">Target / Ada</th>
-    <th class="p-2 border">Realisasi / Lapor</th>
-    <th class="p-2 border">Capaian %</th>`;
-    if (config.type === 'pb') {
-        headerHtml += `<th class="p-2 border">Performa %</th>`;
-            }       
-        headerHtml += `</tr>`;
-    headTabelTren.innerHTML = headerHtml;
-
-    containerTabelTren.classList.remove('hidden');
-    bodyTabelTren.innerHTML = "";
-    
-    let labels = [], values = [];
-
-    // 3. LOOP DATA PER BULAN
-    for (let i = 0; i < maxBulan; i++) {
-        const b = i + 1;
-        const idealBulanKe = (b / 12) * 100;
-        let totalTarget = 0, totalLapor = 0;
-
-        dataFiltered.forEach(d => {
-            let target = config.type === 'cakupan' ? bersihkanAngka(d.seluruhKolom[5 + i]) : bersihkanAngka(d.seluruhKolom[5]);
-            let lapor = config.type === 'cakupan' ? bersihkanAngka(d.seluruhKolom[17 + i]) : bersihkanAngka(d.seluruhKolom[6 + i]);
-            totalTarget += target;
-            totalLapor += lapor;
-        });
-        
-        let persen = totalTarget > 0 ? (totalLapor / totalTarget) * 100 : 0;
-        let performa = (config.type === 'pb' && idealBulanKe > 0) ? (persen / idealBulanKe) * 100 : persen;
-
-        // --- LOGIKA PEWARNAAN ---
-        // Jika PB, warna Capaian ikut status Performa. Jika Cakupan, ikut status Capaian.
-        const statusPerforma = getStatusColor(performa);
-        const statusPersen = (config.type === 'pb') ? statusPerforma : getStatusColor(persen);
-
-        let row = `<tr>
-            <td class="p-2 border font-medium">${daftarBulan[i]}</td>
-            <td class="p-2 border">${totalTarget.toLocaleString()}</td>
-            <td class="p-2 border">${totalLapor.toLocaleString()}</td>
-            <td class="p-2 border ${statusPersen.css}">${persen.toFixed(2)}%</td>`;
-
-        if (config.type === 'pb') {
-            row += `<td class="p-2 border ${statusPerforma.css}">${performa.toFixed(2)}%</td>`;
-        }
-            row += `</tr>`;
-        bodyTabelTren.innerHTML += row;
-
-        labels.push(daftarBulan[i]);
-        values.push(config.type === 'pb' ? performa : persen);
-    }
-
-    // 5. RENDER GRAFIK
-    if(chartTren) chartTren.destroy();
-    chartTren = new Chart(document.getElementById('canvasGrafikTren').getContext('2d'), {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: config.type === 'pb' ? 'Performa Kinerja (%)' : 'Persentase Capaian (%)',
-                data: values,
-                borderColor: '#2563eb',
-                backgroundColor: 'rgba(37, 99, 235, 0.1)',
-                borderWidth: 3,
-                tension: 0.2,
-                fill: true,
-                pointRadius: 6
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                datalabels: {
-                    anchor: 'top', align: 'top', color: '#4b5563', font: { weight: 'bold', size: 10 },
-                    formatter: v => (Number(v) || 0).toFixed(1) + '%'
-                }
-            },
-            scales: {
-                y: { 
-                    beginAtZero: true, 
-                    // Rumus dinamis: ambil nilai tertinggi, tambahkan 10% agar tidak mentok atas
-                    max: Math.ceil(Math.max(...values, 100) * 1.1) 
-                }
+            const containerTabelTren = document.getElementById('containerTabelTren');
+            const headTabelTren = document.getElementById('headTabelTren');
+            const bodyTabelTren = document.getElementById('bodyTabelTren');
+            
+            // 1. CARI BATAS BULAN TERAKHIR
+            let maxBulan = 0;
+            for (let i = 0; i < 12; i++) {
+                let totalLaporProv = 0;
+                semuaDataMentah.forEach(d => {
+                    totalLaporProv += (config.type === 'cakupan' || config.type === 'pa_mkjp') ? bersihkanAngka(d.seluruhKolom[17 + i]) : bersihkanAngka(d.seluruhKolom[6 + i]);
+                });
+                if (totalLaporProv > 0) maxBulan = i + 1;
             }
+            if (maxBulan === 0) maxBulan = 1;
+
+            // 2. GENERATE HEADER
+            let headerHtml = `<tr><th class="p-2 border">Bulan</th>`;
+            if (config.type === 'pa_mkjp') {
+                headerHtml += `<th class="p-2 border">PA Modern</th><th class="p-2 border">PA MKJP</th><th class="p-2 border">% PA MKJP</th>`;
+            } else {
+                headerHtml += `<th class="p-2 border">Target / Ada</th><th class="p-2 border">Realisasi / Lapor</th><th class="p-2 border">Capaian %</th>`;
+            }
+            
+            if (config.type === 'pb' || config.type === 'pa_mkjp') {
+                headerHtml += `<th class="p-2 border">Performa %</th>`;
+            }       
+            headerHtml += `</tr>`;
+            headTabelTren.innerHTML = headerHtml;
+
+            containerTabelTren.classList.remove('hidden');
+            bodyTabelTren.innerHTML = "";
+            
+            let labels = [], values = [];
+
+            // 3. LOOP DATA PER BULAN
+            for (let i = 0; i < maxBulan; i++) {
+                const b = i + 1;
+                const idealBulanKe = (b / 12) * 100;
+                let totalTarget = 0, totalLapor = 0;
+
+                dataFiltered.forEach(d => {
+                    let target = 0, lapor = 0;
+                    if (config.type === 'cakupan' || config.type === 'pa_mkjp') {
+                        target = bersihkanAngka(d.seluruhKolom[5 + i]);
+                        lapor = bersihkanAngka(d.seluruhKolom[17 + i]);
+                    } else {
+                        target = bersihkanAngka(d.seluruhKolom[5]);
+                        lapor = bersihkanAngka(d.seluruhKolom[6 + i]);
+                    }
+                    totalTarget += target;
+                    totalLapor += lapor;
+                });
+                
+                let persen = totalTarget > 0 ? (totalLapor / totalTarget) * 100 : 0;
+                let performa = persen;
+                
+                if (config.type === 'pb' && idealBulanKe > 0) {
+                    performa = (persen / idealBulanKe) * 100;
+                } else if (config.type === 'pa_mkjp') {
+                    performa = (persen / 49.5) * 100;
+                }
+
+                // --- LOGIKA PEWARNAAN ---
+                const statusPerforma = getStatusColor(performa);
+                const statusPersen = (config.type === 'pb' || config.type === 'pa_mkjp') ? statusPerforma : getStatusColor(persen);
+
+                let row = `<tr>
+                    <td class="p-2 border font-medium">${daftarBulan[i]}</td>
+                    <td class="p-2 border">${totalTarget.toLocaleString()}</td>
+                    <td class="p-2 border">${totalLapor.toLocaleString()}</td>
+                    <td class="p-2 border ${statusPersen.css}">${persen.toFixed(2)}%</td>`;
+
+                if (config.type === 'pb' || config.type === 'pa_mkjp') {
+                    row += `<td class="p-2 border ${statusPerforma.css}">${performa.toFixed(2)}%</td>`;
+                }
+                row += `</tr>`;
+                bodyTabelTren.innerHTML += row;
+
+                labels.push(daftarBulan[i]);
+                values.push(config.type === 'pb' || config.type === 'pa_mkjp' ? performa : persen);
+            }
+
+            // 5. RENDER GRAFIK
+            if(chartTren) chartTren.destroy();
+            const isPerformaModeTren = config.type === 'pb' || config.type === 'pa_mkjp';
+            
+            chartTren = new Chart(document.getElementById('canvasGrafikTren').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: isPerformaModeTren ? 'Performa Kinerja (%)' : 'Persentase Capaian (%)',
+                        data: values,
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.2,
+                        fill: true,
+                        pointRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        datalabels: {
+                            anchor: 'top', align: 'top', color: '#4b5563', font: { weight: 'bold', size: 10 },
+                            formatter: v => (Number(v) || 0).toFixed(1) + '%'
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true, 
+                            max: Math.ceil(Math.max(...values, 100) * 1.1) 
+                        }
+                    }
+                }
+            });
         }
-    });
-}
 
         muatDataIndikator();
     </script>
