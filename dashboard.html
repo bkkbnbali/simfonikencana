@@ -2,122 +2,186 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Monitoring SILAGA KENCANA 2026</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 </head>
-<body class="bg-gray-100 font-sans text-gray-800">
+<body class="bg-gray-50 font-sans text-gray-800 min-h-screen">
 
-    <header class="bg-blue-600 text-white p-4 shadow-md">
-        <h1 class="text-2xl font-bold mb-4">DASHBOARD MONITORING SILAGA KENCANA 2026</h1>
-        <div class="flex flex-wrap gap-4">
-            <select id="filterIndikator" onchange="muatDataIndikator()" class="text-gray-800 bg-white p-2 rounded font-bold w-64 border border-gray-300">
-                <optgroup label="Cakupan (Ada/Lapor)">
-                    <option value="tpmb">Tempat Pelayanan KB</option><option value="ppkbd">PPKBD</option>
-                    <option value="bkb">BKB</option><option value="bkr">BKR</option>
-                    <option value="bkl">BKL</option><option value="uppka">UPPKA</option>
-                    <option value="pikr">PIK Remaja</option>
-                </optgroup>
-                <optgroup label="Capaian Kinerja (Target/Realisasi)">
-                    <option value="pb_total">PB Total</option><option value="pb_mkjp">PB MKJP</option>
-                    <option value="pb_kbpp">PB KBPP</option>
-                    <option value="baduta_ikut_kerabat">Baduta Ikut Kerabat</option>
-                    <option value="pertemuan_pikr">Pertemuan PIK-R</option>
-                    <option value="pendampingan_catin">Pendampingan Catin di ELSIMIL</option>
-                    <option value="gati_pengetahuan_ayah">GATI-Pengetahuan Ayah Mengasuh</option>
-                    <option value="kel_ikut_bkb">Kelompok Ikut BKB</option>
-                    <option value="bkb_hadir">BKB Hadir Pertemuan</option>
-                    <option value="anak_terpantau_kka">Anak Terpantau KKA</option>
-                    <option value="bkr_hadir">Anggota & Bukan Anggota BKR Hadir Pertemuan</option>
-                    <option value="ikut_bkl">Keluarga Ikut BKL</option>
-                    <option value="bkl_hadir">Anggota BKL Hadir Kegiatan</option>
-                    <option value="uppka_hadir">Anggota UPPKA Hadir Kegiatan</option>
-                    <option value="PA_MKJP">PA MKJP</option>
-                </optgroup>
-            </select>
-            <select id="filterBulan" onchange="saringDanTampilkanData()" class="text-gray-800 bg-white p-2 rounded font-bold border border-gray-300">
-                <option value="Januari">Januari</option><option value="Februari">Februari</option><option value="Maret">Maret</option>
-                <option value="April">April</option><option value="Mei">Mei</option><option value="Juni">Juni</option>
-                <option value="Juli">Juli</option><option value="Agustus">Agustus</option><option value="September">September</option>
-                <option value="Oktober">Oktober</option><option value="November">November</option><option value="Desember">Desember</option>
-            </select>
-            <select id="filterKabupaten" onchange="aksiPilihKabupaten()" class="text-gray-800 bg-white p-2 rounded font-bold border border-gray-300">
-                <option value="SEMUA">-- Semua Kabupaten --</option>
-                <option value="Jembrana">Jembrana</option><option value="Tabanan">Tabanan</option><option value="Badung">Badung</option>
-                <option value="Gianyar">Gianyar</option><option value="Klungkung">Klungkung</option><option value="Bangli">Bangli</option>
-                <option value="Karangasem">Karangasem</option><option value="Buleleng">Buleleng</option><option value="Denpasar">Denpasar</option>
-            </select>
-            <select id="filterKecamatan" onchange="aksiPilihKecamatan()" class="text-gray-800 bg-white p-2 rounded font-bold border border-gray-300">
-                <option value="SEMUA">-- Semua Kecamatan --</option>
-            </select>
-            <select id="filterDesa" onchange="saringDanTampilkanData()" class="text-gray-800 bg-white p-2 rounded font-bold border border-gray-300">
-                <option value="SEMUA">-- Semua Desa --</option>
-            </select>
+    <!-- Header Biru (Khusus Judul, Tombol, dan Logo) -->
+    <header class="bg-blue-600 rounded-b-[40px] shadow-md pt-6 pb-12 px-6">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- Baris Atas: Tombol Kembali & Logo -->
+            <div class="flex justify-between items-center mb-8">
+                <a href="index.html" class="flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-xl backdrop-blur-sm transition-all text-sm font-semibold border border-white/30 hover:shadow-md">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Kembali ke Beranda
+                </a>
+                
+                <div class="bg-white p-2 md:p-2.5 rounded-xl shadow-sm">
+                    <img src="logo_bkkbn_bali2.png" alt="Logo KEMENDUKBANGGA BKKBN" class="h-6 md:h-8 object-contain">
+                </div>
+            </div>
+
+            <!-- Judul Dashboard -->
+            <div class="text-center text-white">
+                <h1 class="text-3xl md:text-4xl font-extrabold drop-shadow-md tracking-tight">DASHBOARD MONITORING SILAGA KENCANA</h1>
+                <p class="text-blue-100 font-medium mt-2 text-lg">Capaian & Performa Program Bangga Kencana 2026</p>
+            </div>
+            
         </div>
     </header>
 
-    <main class="p-6 max-w-7xl mx-auto space-y-6">
-        <!-- Grid card dinamis (bisa 4 atau 5 kolom tergantung indikator) -->
+    <!-- Bagian Isi Website (Area Abu-abu/Putih) -->
+    <main class="p-6 max-w-7xl mx-auto space-y-8 mt-4">
+        
+        <!-- Panel Filter (Menu Dropdown) -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                
+                <!-- Filter Indikator -->
+                <div class="flex flex-col">
+                    <label class="text-[10px] font-bold text-gray-500 mb-1.5 uppercase tracking-wide">Pilih Indikator</label>
+                    <select id="filterIndikator" onchange="muatDataIndikator()" class="text-gray-800 bg-gray-50 p-2.5 rounded-xl font-semibold border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition-all hover:border-blue-400">
+                        <optgroup label="Cakupan (Ada/Lapor)">
+                            <option value="tpmb">Tempat Pelayanan KB</option><option value="ppkbd">PPKBD</option>
+                            <option value="bkb">BKB</option><option value="bkr">BKR</option>
+                            <option value="bkl">BKL</option><option value="uppka">UPPKA</option>
+                            <option value="pikr">PIK Remaja</option>
+                        </optgroup>
+                        <optgroup label="Capaian Kinerja (Target/Realisasi)">
+                            <option value="pb_total">PB Total</option><option value="pb_mkjp">PB MKJP</option>
+                            <option value="pb_kbpp">PB KBPP</option>
+                            <option value="baduta_ikut_kerabat">Baduta Ikut Kerabat</option>
+                            <option value="pertemuan_pikr">Pertemuan PIK-R</option>
+                            <option value="pendampingan_catin">Pendampingan Catin di ELSIMIL</option>
+                            <option value="gati_pengetahuan_ayah">GATI-Pengetahuan Ayah Mengasuh</option>
+                            <option value="kel_ikut_bkb">Kelompok Ikut BKB</option>
+                            <option value="bkb_hadir">BKB Hadir Pertemuan</option>
+                            <option value="anak_terpantau_kka">Anak Terpantau KKA</option>
+                            <option value="bkr_hadir">Anggota & Bukan Anggota BKR Hadir Pertemuan</option>
+                            <option value="ikut_bkl">Keluarga Ikut BKL</option>
+                            <option value="bkl_hadir">Anggota BKL Hadir Kegiatan</option>
+                            <option value="uppka_hadir">Anggota UPPKA Hadir Kegiatan</option>
+                            <option value="PA_MKJP">PA MKJP</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <!-- Filter Bulan -->
+                <div class="flex flex-col">
+                    <label class="text-[10px] font-bold text-gray-500 mb-1.5 uppercase tracking-wide">Bulan</label>
+                    <select id="filterBulan" onchange="saringDanTampilkanData()" class="text-gray-800 bg-gray-50 p-2.5 rounded-xl font-semibold border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition-all hover:border-blue-400">
+                        <option value="Januari">Januari</option><option value="Februari">Februari</option><option value="Maret">Maret</option>
+                        <option value="April">April</option><option value="Mei">Mei</option><option value="Juni">Juni</option>
+                        <option value="Juli">Juli</option><option value="Agustus">Agustus</option><option value="September">September</option>
+                        <option value="Oktober">Oktober</option><option value="November">November</option><option value="Desember">Desember</option>
+                    </select>
+                </div>
+
+                <!-- Filter Kabupaten -->
+                <div class="flex flex-col">
+                    <label class="text-[10px] font-bold text-gray-500 mb-1.5 uppercase tracking-wide">Kabupaten / Kota</label>
+                    <select id="filterKabupaten" onchange="aksiPilihKabupaten()" class="text-gray-800 bg-gray-50 p-2.5 rounded-xl font-semibold border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition-all hover:border-blue-400">
+                        <option value="SEMUA">-- Semua Kabupaten --</option>
+                        <option value="Jembrana">Jembrana</option><option value="Tabanan">Tabanan</option><option value="Badung">Badung</option>
+                        <option value="Gianyar">Gianyar</option><option value="Klungkung">Klungkung</option><option value="Bangli">Bangli</option>
+                        <option value="Karangasem">Karangasem</option><option value="Buleleng">Buleleng</option><option value="Denpasar">Denpasar</option>
+                    </select>
+                </div>
+
+                <!-- Filter Kecamatan -->
+                <div class="flex flex-col">
+                    <label class="text-[10px] font-bold text-gray-500 mb-1.5 uppercase tracking-wide">Kecamatan</label>
+                    <select id="filterKecamatan" onchange="aksiPilihKecamatan()" class="text-gray-800 bg-gray-50 p-2.5 rounded-xl font-semibold border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition-all hover:border-blue-400">
+                        <option value="SEMUA">-- Semua Kecamatan --</option>
+                    </select>
+                </div>
+
+                <!-- Filter Desa -->
+                <div class="flex flex-col">
+                    <label class="text-[10px] font-bold text-gray-500 mb-1.5 uppercase tracking-wide">Desa / Kelurahan</label>
+                    <select id="filterDesa" onchange="saringDanTampilkanData()" class="text-gray-800 bg-gray-50 p-2.5 rounded-xl font-semibold border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition-all hover:border-blue-400">
+                        <option value="SEMUA">-- Semua Desa --</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Score Card Dinamis -->
         <div id="cardContainer" class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div id="cardTargetKonstanContainer" class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-indigo-500 hidden">
-                <p class="text-xs font-semibold uppercase text-gray-500">TARGET</p>
+            <div id="cardTargetKonstanContainer" class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-indigo-500 hidden">
+                <p class="text-xs font-semibold uppercase text-gray-500 tracking-wide">TARGET</p>
                 <p id="cardTargetKonstan" class="text-2xl font-bold mt-1 text-gray-800">49.5%</p>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-blue-500">
-                <p id="labelCard1" class="text-xs font-semibold uppercase text-gray-500">TARGET / ADA</p>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-blue-500">
+                <p id="labelCard1" class="text-xs font-semibold uppercase text-gray-500 tracking-wide">TARGET / ADA</p>
                 <p id="cardTotal" class="text-2xl font-bold mt-1 text-gray-800">0</p>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-green-500">
-                <p id="labelCard2" class="text-xs font-semibold uppercase text-gray-500">REALISASI / LAPOR</p>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-green-500">
+                <p id="labelCard2" class="text-xs font-semibold uppercase text-gray-500 tracking-wide">REALISASI / LAPOR</p>
                 <p id="cardLapor" class="text-2xl font-bold mt-1 text-gray-800">0</p>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-yellow-500">
-                <p id="labelCardCapaian" class="text-xs font-semibold uppercase text-gray-500">CAPAIAN (%)</p>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-yellow-500">
+                <p id="labelCardCapaian" class="text-xs font-semibold uppercase text-gray-500 tracking-wide">CAPAIAN (%)</p>
                 <p id="cardPersen" class="text-2xl font-bold mt-1 text-gray-800">0%</p>
             </div>
-            <div id="cardPerformaContainer" class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-purple-500 hidden">
-                <p class="text-xs font-semibold uppercase text-gray-500">PERFORMA (%)</p>
+            <div id="cardPerformaContainer" class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-purple-500 hidden">
+                <p class="text-xs font-semibold uppercase text-gray-500 tracking-wide">PERFORMA (%)</p>
                 <p id="cardPerforma" class="text-2xl font-bold mt-1 text-purple-600">0%</p>
             </div>
         </div>
 
-        <div class="bg-white p-6 rounded-xl shadow-sm">
-            <h3 class="text-lg font-bold text-gray-700 mb-4">Grafik Capaian/Performa</h3>
+        <!-- Grafik -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+            <h3 class="text-lg font-bold text-gray-700 mb-4 flex items-center gap-2">
+                <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                Grafik Capaian/Performa
+            </h3>
             <div class="h-96"><canvas id="canvasGrafik"></canvas></div>
         </div>
 
-        <div class="bg-white p-6 rounded-xl shadow-sm overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead id="headTabel" class="bg-gray-100"></thead>
-                <tbody id="bodyTabel" class="divide-y text-gray-700"></tbody>
+        <!-- Tabel Utama -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 overflow-x-auto">
+            <table class="w-full text-left border-collapse whitespace-nowrap">
+                <thead id="headTabel" class="bg-gray-50 text-gray-600 border-b-2 border-gray-200"></thead>
+                <tbody id="bodyTabel" class="divide-y divide-gray-100 text-gray-700"></tbody>
             </table>
         </div>
 
-        <div class="border-t border-gray-300 pt-6">
-            <div class="bg-white p-6 rounded-xl shadow-sm space-y-6">
-                <div>
-                    <h3 id="judulTren" class="text-lg font-bold text-blue-700 uppercase tracking-wide">Tren Capaian Bulanan</h3>
-                    <p class="text-sm text-gray-500">Menampilkan perkembangan indikator berdasarkan wilayah terpilih hingga bulan terakhir penginputan data.</p>
-                </div>
-                
-                <div class="h-80 relative">
-                    <canvas id="canvasGrafikTren"></canvas>
-                </div>
+        <!-- Bagian Tren Bulanan -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 space-y-6">
+            <div>
+                <h3 id="judulTren" class="text-lg font-bold text-blue-700 uppercase tracking-wide flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                    Tren Capaian Bulanan
+                </h3>
+                <p class="text-sm text-gray-500 mt-1">Menampilkan perkembangan indikator berdasarkan wilayah terpilih hingga bulan terakhir penginputan data.</p>
+            </div>
+            
+            <div class="h-80 relative">
+                <canvas id="canvasGrafikTren"></canvas>
+            </div>
 
-                <div id="containerTabelTren" class="overflow-x-auto mt-4 hidden">
-                    <h4 class="text-sm font-bold text-gray-700 mb-2">Detail Data Bulanan Wilayah Terpilih:</h4>
-    
-                    <table class="w-full text-left border-collapse text-xs">
-                        <thead id="headTabelTren" class="bg-blue-50 text-blue-900">
-                        </thead>
-                        <tbody id="bodyTabelTren" class="divide-y border-b text-gray-700"></tbody>
-                    </table>
-                </div>
+            <div id="containerTabelTren" class="overflow-x-auto mt-4 hidden bg-gray-50 p-4 rounded-xl border border-gray-200">
+                <h4 class="text-sm font-bold text-gray-700 mb-3">Detail Data Bulanan Wilayah Terpilih:</h4>
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead id="headTabelTren" class="bg-blue-100 text-blue-900 border-b border-blue-200">
+                    </thead>
+                    <tbody id="bodyTabelTren" class="divide-y border-b text-gray-700"></tbody>
+                </table>
             </div>
         </div>
+        
     </main>
 
+    <!-- Script Logika Tetap Sama 100% -->
     <script>
         Chart.register(ChartDataLabels);
 
@@ -270,14 +334,14 @@
 
             // Setup Header Tabel
             const head = document.getElementById('headTabel');
-            let headerTabelHtml = `<tr><th class="p-3">Wilayah</th>`;
+            let headerTabelHtml = `<tr><th class="p-4">Wilayah</th>`;
             if (config.type === 'pa_mkjp') {
-                headerTabelHtml += `<th class="p-3">Jumlah PA Modern</th><th class="p-3">Jumlah PA MKJP</th><th class="p-3">% PA MKJP</th>`;
+                headerTabelHtml += `<th class="p-4">Jumlah PA Modern</th><th class="p-4">Jumlah PA MKJP</th><th class="p-4">% PA MKJP</th>`;
             } else {
-                headerTabelHtml += `<th class="p-3">Target</th><th class="p-3">Realisasi</th><th class="p-3">Capaian %</th>`;
+                headerTabelHtml += `<th class="p-4">Target</th><th class="p-4">Realisasi</th><th class="p-4">Capaian %</th>`;
             }
             if (config.type === 'pb' || config.type === 'pa_mkjp') {
-                headerTabelHtml += `<th class="p-3">Performa %</th>`;
+                headerTabelHtml += `<th class="p-4">Performa %</th>`;
             }
             headerTabelHtml += `</tr>`;
             head.innerHTML = headerTabelHtml;
@@ -292,13 +356,13 @@
                 const cssPerforma = getStatusColor(d.performa).css;
                 const cssPersen = (config.type === 'pb' || config.type === 'pa_mkjp') ? cssPerforma : getStatusColor(d.persen).css;
                 
-                let row = `<tr>
-                    <td class="p-3 font-semibold">${d.label}</td>
-                    <td class="p-3">${d.target.toLocaleString('id-ID')}</td>
-                    <td class="p-3">${d.lapor.toLocaleString('id-ID')}</td>
-                    <td class="p-3 ${cssPersen}">${(Number(d.persen) || 0).toFixed(2)}%</td>`;
+                let row = `<tr class="hover:bg-gray-50 transition-colors">
+                    <td class="p-4 font-semibold">${d.label}</td>
+                    <td class="p-4">${d.target.toLocaleString('id-ID')}</td>
+                    <td class="p-4">${d.lapor.toLocaleString('id-ID')}</td>
+                    <td class="p-4 ${cssPersen}">${(Number(d.persen) || 0).toFixed(2)}%</td>`;
                 if (config.type === 'pb' || config.type === 'pa_mkjp') {
-                    row += `<td class="p-3 ${cssPerforma}">${(Number(d.performa) || 0).toFixed(2)}%</td>`;
+                    row += `<td class="p-4 ${cssPerforma}">${(Number(d.performa) || 0).toFixed(2)}%</td>`;
                 }
                 row += `</tr>`;
                 body.innerHTML += row;
@@ -399,15 +463,15 @@
             if (maxBulan === 0) maxBulan = 1;
 
             // 2. GENERATE HEADER
-            let headerHtml = `<tr><th class="p-2 border">Bulan</th>`;
+            let headerHtml = `<tr><th class="p-3 border border-gray-200">Bulan</th>`;
             if (config.type === 'pa_mkjp') {
-                headerHtml += `<th class="p-2 border">PA Modern</th><th class="p-2 border">PA MKJP</th><th class="p-2 border">% PA MKJP</th>`;
+                headerHtml += `<th class="p-3 border border-gray-200">PA Modern</th><th class="p-3 border border-gray-200">PA MKJP</th><th class="p-3 border border-gray-200">% PA MKJP</th>`;
             } else {
-                headerHtml += `<th class="p-2 border">Target / Ada</th><th class="p-2 border">Realisasi / Lapor</th><th class="p-2 border">Capaian %</th>`;
+                headerHtml += `<th class="p-3 border border-gray-200">Target / Ada</th><th class="p-3 border border-gray-200">Realisasi / Lapor</th><th class="p-3 border border-gray-200">Capaian %</th>`;
             }
             
             if (config.type === 'pb' || config.type === 'pa_mkjp') {
-                headerHtml += `<th class="p-2 border">Performa %</th>`;
+                headerHtml += `<th class="p-3 border border-gray-200">Performa %</th>`;
             }       
             headerHtml += `</tr>`;
             headTabelTren.innerHTML = headerHtml;
@@ -449,14 +513,14 @@
                 const statusPerforma = getStatusColor(performa);
                 const statusPersen = (config.type === 'pb' || config.type === 'pa_mkjp') ? statusPerforma : getStatusColor(persen);
 
-                let row = `<tr>
-                    <td class="p-2 border font-medium">${daftarBulan[i]}</td>
-                    <td class="p-2 border">${totalTarget.toLocaleString()}</td>
-                    <td class="p-2 border">${totalLapor.toLocaleString()}</td>
-                    <td class="p-2 border ${statusPersen.css}">${persen.toFixed(2)}%</td>`;
+                let row = `<tr class="hover:bg-white transition-colors">
+                    <td class="p-3 border border-gray-200 font-medium">${daftarBulan[i]}</td>
+                    <td class="p-3 border border-gray-200">${totalTarget.toLocaleString()}</td>
+                    <td class="p-3 border border-gray-200">${totalLapor.toLocaleString()}</td>
+                    <td class="p-3 border border-gray-200 ${statusPersen.css}">${persen.toFixed(2)}%</td>`;
 
                 if (config.type === 'pb' || config.type === 'pa_mkjp') {
-                    row += `<td class="p-2 border ${statusPerforma.css}">${performa.toFixed(2)}%</td>`;
+                    row += `<td class="p-3 border border-gray-200 ${statusPerforma.css}">${performa.toFixed(2)}%</td>`;
                 }
                 row += `</tr>`;
                 bodyTabelTren.innerHTML += row;
