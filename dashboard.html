@@ -10,11 +10,9 @@
 </head>
 <body class="bg-gray-50 font-sans text-gray-800 min-h-screen">
 
-    <!-- Header Biru (Khusus Judul, Tombol, dan Logo) -->
     <header class="bg-blue-600 rounded-b-[40px] shadow-md pt-6 pb-12 px-6">
         <div class="max-w-7xl mx-auto">
             
-            <!-- Baris Atas: Tombol Kembali & Logo -->
             <div class="flex justify-between items-center mb-8">
                 <a href="index.html" class="flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-xl backdrop-blur-sm transition-all text-sm font-semibold border border-white/30 hover:shadow-md">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -28,7 +26,6 @@
                 </div>
             </div>
 
-            <!-- Judul Dashboard -->
             <div class="text-center text-white">
                 <h1 class="text-3xl md:text-4xl font-extrabold drop-shadow-md tracking-tight">DASHBOARD MONITORING SILAGA KENCANA</h1>
                 <p class="text-blue-100 font-medium mt-2 text-lg">Capaian & Performa Program Bangga Kencana 2026</p>
@@ -37,14 +34,11 @@
         </div>
     </header>
 
-    <!-- Bagian Isi Website (Area Abu-abu/Putih) -->
     <main class="p-6 max-w-7xl mx-auto space-y-8 mt-4">
         
-        <!-- Panel Filter (Menu Dropdown) -->
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 
-                <!-- Filter Indikator -->
                 <div class="flex flex-col">
                     <label class="text-[10px] font-bold text-gray-500 mb-1.5 uppercase tracking-wide">Pilih Indikator</label>
                     <select id="filterIndikator" onchange="muatDataIndikator()" class="text-gray-800 bg-gray-50 p-2.5 rounded-xl font-semibold border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition-all hover:border-blue-400">
@@ -53,6 +47,8 @@
                             <option value="bkb">BKB</option><option value="bkr">BKR</option>
                             <option value="bkl">BKL</option><option value="uppka">UPPKA</option>
                             <option value="pikr">PIK Remaja</option>
+                            <option value="ppks">Cakupan PPKS</option>
+                            <option value="bp">Cakupan BP</option>
                         </optgroup>
                         <optgroup label="Capaian Kinerja (Target/Realisasi)">
                             <option value="pb_total">PB Total</option><option value="pb_mkjp">PB MKJP</option>
@@ -73,7 +69,6 @@
                     </select>
                 </div>
 
-                <!-- Filter Bulan -->
                 <div class="flex flex-col">
                     <label class="text-[10px] font-bold text-gray-500 mb-1.5 uppercase tracking-wide">Bulan</label>
                     <select id="filterBulan" onchange="saringDanTampilkanData()" class="text-gray-800 bg-gray-50 p-2.5 rounded-xl font-semibold border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition-all hover:border-blue-400">
@@ -84,7 +79,6 @@
                     </select>
                 </div>
 
-                <!-- Filter Kabupaten -->
                 <div class="flex flex-col">
                     <label class="text-[10px] font-bold text-gray-500 mb-1.5 uppercase tracking-wide">Kabupaten / Kota</label>
                     <select id="filterKabupaten" onchange="aksiPilihKabupaten()" class="text-gray-800 bg-gray-50 p-2.5 rounded-xl font-semibold border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition-all hover:border-blue-400">
@@ -95,7 +89,6 @@
                     </select>
                 </div>
 
-                <!-- Filter Kecamatan -->
                 <div class="flex flex-col">
                     <label class="text-[10px] font-bold text-gray-500 mb-1.5 uppercase tracking-wide">Kecamatan</label>
                     <select id="filterKecamatan" onchange="aksiPilihKecamatan()" class="text-gray-800 bg-gray-50 p-2.5 rounded-xl font-semibold border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition-all hover:border-blue-400">
@@ -103,8 +96,7 @@
                     </select>
                 </div>
 
-                <!-- Filter Desa -->
-                <div class="flex flex-col">
+                <div id="containerFilterDesa" class="flex flex-col">
                     <label class="text-[10px] font-bold text-gray-500 mb-1.5 uppercase tracking-wide">Desa / Kelurahan</label>
                     <select id="filterDesa" onchange="saringDanTampilkanData()" class="text-gray-800 bg-gray-50 p-2.5 rounded-xl font-semibold border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition-all hover:border-blue-400">
                         <option value="SEMUA">-- Semua Desa --</option>
@@ -114,7 +106,6 @@
             </div>
         </div>
 
-        <!-- Score Card Dinamis -->
         <div id="cardContainer" class="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div id="cardTargetKonstanContainer" class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-indigo-500 hidden">
                 <p class="text-xs font-semibold uppercase text-gray-500 tracking-wide">TARGET</p>
@@ -138,7 +129,6 @@
             </div>
         </div>
 
-        <!-- Grafik -->
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
             <h3 class="text-lg font-bold text-gray-700 mb-4 flex items-center gap-2">
                 <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
@@ -147,7 +137,6 @@
             <div class="h-96"><canvas id="canvasGrafik"></canvas></div>
         </div>
 
-        <!-- Tabel Utama -->
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 overflow-x-auto">
             <table class="w-full text-left border-collapse whitespace-nowrap">
                 <thead id="headTabel" class="bg-gray-50 text-gray-600 border-b-2 border-gray-200"></thead>
@@ -155,7 +144,6 @@
             </table>
         </div>
 
-        <!-- Bagian Tren Bulanan -->
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 space-y-6">
             <div>
                 <h3 id="judulTren" class="text-lg font-bold text-blue-700 uppercase tracking-wide flex items-center gap-2">
@@ -181,7 +169,6 @@
         
     </main>
 
-    <!-- Script Logika Tetap Sama 100% -->
     <script>
         Chart.register(ChartDataLabels);
 
@@ -208,6 +195,11 @@
             bkl: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=643868757&single=true&output=csv", type: "cakupan" },
             uppka: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=1222746329&single=true&output=csv", type: "cakupan" },
             pikr: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=277045311&single=true&output=csv", type: "cakupan" },
+            
+            // 2 Indikator Baru Anda (Menggunakan ID Spreadsheet yang diberikan)
+            ppks: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=1385390057&single=true&output=csv", type: "cakupan" },
+            bp: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=1099510314&single=true&output=csv", type: "cakupan" },
+
             pb_total: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=903350473&single=true&output=csv", type: "pb" },
             pb_mkjp: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=1894993991&single=true&output=csv", type: "pb" },
             pb_kbpp: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=956857648&single=true&output=csv", type: "pb" },
@@ -238,8 +230,24 @@
                 const text = await res.text();
                 semuaDataMentah = text.split('\n').slice(1).map(r => {
                     const c = r.replace(/"/g, "").split(r.includes(';') ? ';' : ',');
-                    return { kab: c[4]||"", kec: c[3]||"", desa: c[2]||"", seluruhKolom: c };
+                    
+                    // KONDISI KHUSUS INDIKATOR BARU (PPKS & BP)
+                    if (ind === 'ppks' || ind === 'bp') {
+                        return { kab: c[3]||"", kec: c[2]||"", desa: "", seluruhKolom: c };
+                    } else {
+                        // Pola data lama
+                        return { kab: c[4]||"", kec: c[3]||"", desa: c[2]||"", seluruhKolom: c };
+                    }
                 }).filter(x => x.kab);
+
+                // Tampilkan / Sembunyikan Filter Desa secara dinamis
+                const fDesa = document.getElementById('containerFilterDesa');
+                if (ind === 'ppks' || ind === 'bp') {
+                    fDesa.classList.add('hidden');
+                } else {
+                    fDesa.classList.remove('hidden');
+                }
+
                 aksiPilihKabupaten();
             } catch(e) { console.error("Error muat data:", e); alert("Gagal mengambil data, pastikan link CSV valid."); }
         }
@@ -254,7 +262,7 @@
             
             if(kab !== "SEMUA") {
                 const kecs = [...new Set(semuaDataMentah.filter(d => d.kab.toLowerCase().includes(kab.toLowerCase())).map(d => d.kec))];
-                kecs.forEach(kec => {
+                kecs.sort().forEach(kec => {
                     let o = document.createElement('option'); o.value = kec; o.textContent = kec; dropKec.appendChild(o);
                 });
             }
@@ -262,19 +270,21 @@
         }
 
         function aksiPilihKecamatan() {
+            const ind = document.getElementById('filterIndikator').value;
             const kab = document.getElementById('filterKabupaten').value;
             const kec = document.getElementById('filterKecamatan').value;
             const dropDesa = document.getElementById('filterDesa');
             
             dropDesa.innerHTML = '<option value="SEMUA">-- Semua Desa --</option>';
             
-            if(kec !== "SEMUA" && kab !== "SEMUA") {
+            // Jangan isi opsi Desa jika indikatornya adalah PPKS atau BP
+            if(ind !== 'ppks' && ind !== 'bp' && kec !== "SEMUA" && kab !== "SEMUA") {
                 const desas = [...new Set(semuaDataMentah.filter(d => 
                     d.kab.toLowerCase().includes(kab.toLowerCase()) && 
                     d.kec.toLowerCase().includes(kec.toLowerCase())
                 ).map(d => d.desa))];
                 
-                desas.forEach(desa => {
+                desas.sort().forEach(desa => {
                     let o = document.createElement('option'); o.value = desa; o.textContent = desa; dropDesa.appendChild(o);
                 });
             }
@@ -293,16 +303,27 @@
             const dataFiltered = semuaDataMentah.filter(d => 
                 (kab === "SEMUA" || d.kab.toLowerCase().includes(kab.toLowerCase())) &&
                 (kec === "SEMUA" || d.kec.toLowerCase().includes(kec.toLowerCase())) &&
-                (desa === "SEMUA" || d.desa.toLowerCase().includes(desa.toLowerCase()))
+                (ind === 'ppks' || ind === 'bp' || desa === "SEMUA" || d.desa.toLowerCase().includes(desa.toLowerCase()))
             );
 
-            const groupKey = kab === "SEMUA" ? "kab" : (kec === "SEMUA" ? "kec" : "desa");
+            // TENTUKAN TINGKAT AGREGASI WILAYAH UTAMA
+            let groupKey = "kab";
+            if (ind === 'ppks' || ind === 'bp') {
+                groupKey = kab === "SEMUA" ? "kab" : "kec";
+            } else {
+                groupKey = kab === "SEMUA" ? "kab" : (kec === "SEMUA" ? "kec" : "desa");
+            }
+
             const aggregated = {};
             
             dataFiltered.forEach(d => {
                 let target = 0, lapor = 0;
                 
-                if (config.type === 'cakupan') {
+                // PARSING BERDASARKAN KONDISI STRUKTUR DATA INDIKATOR
+                if (ind === 'ppks' || ind === 'bp') {
+                    target = bersihkanAngka(d.seluruhKolom[4 + (b - 1)]);  // E-P (Jan-Des Ada)
+                    lapor = bersihkanAngka(d.seluruhKolom[16 + (b - 1)]); // Q-AB (Jan-Des Lapor)
+                } else if (config.type === 'cakupan') {
                     target = bersihkanAngka(d.seluruhKolom[5 + (b - 1)]);
                     lapor = bersihkanAngka(d.seluruhKolom[17 + (b - 1)]);
                 } else if (config.type === 'pa_mkjp') {
@@ -338,7 +359,7 @@
             if (config.type === 'pa_mkjp') {
                 headerTabelHtml += `<th class="p-4">Jumlah PA Modern</th><th class="p-4">Jumlah PA MKJP</th><th class="p-4">% PA MKJP</th>`;
             } else {
-                headerTabelHtml += `<th class="p-4">Target</th><th class="p-4">Realisasi</th><th class="p-4">Capaian %</th>`;
+                headerTabelHtml += `<th class="p-4">Target / Ada</th><th class="p-4">Realisasi / Lapor</th><th class="p-4">Capaian %</th>`;
             }
             if (config.type === 'pb' || config.type === 'pa_mkjp') {
                 headerTabelHtml += `<th class="p-4">Performa %</th>`;
@@ -385,19 +406,19 @@
             const cardContainer = document.getElementById('cardContainer');
             const label1 = document.getElementById('labelCard1');
             const label2 = document.getElementById('labelCard2');
-            const labelCapaian = document.getElementById('labelCardCapaian'); // Id baru
+            const labelCapaian = document.getElementById('labelCardCapaian'); 
             const targetTetapContainer = document.getElementById('cardTargetKonstanContainer');
 
             if (config.type === 'pa_mkjp') {
                 label1.textContent = "JUMLAH PA MODERN";
                 label2.textContent = "JUMLAH PA MKJP";
-                labelCapaian.textContent = "% PA MKJP"; // Teks diubah ke % PA MKJP
+                labelCapaian.textContent = "% PA MKJP"; 
                 targetTetapContainer.classList.remove('hidden');
                 cardContainer.className = "grid grid-cols-2 md:grid-cols-5 gap-6";
             } else {
                 label1.textContent = "TARGET / ADA";
                 label2.textContent = "REALISASI / LAPOR";
-                labelCapaian.textContent = "CAPAIAN (%)"; // Kembali ke asalnya
+                labelCapaian.textContent = "CAPAIAN (%)"; 
                 targetTetapContainer.classList.add('hidden');
                 cardContainer.className = "grid grid-cols-2 md:grid-cols-4 gap-6";
             }
@@ -411,7 +432,7 @@
                 containerPerforma.classList.add('hidden');
             }
             
-            // Grafik
+            // Grafik Utama
             if(chart) chart.destroy();
             const isPerformaMode = config.type === 'pb' || config.type === 'pa_mkjp';
             const bgColors = finalData.map(d => getStatusColor(isPerformaMode ? d.performa : d.persen).hex);
@@ -437,7 +458,7 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            suggestedMax: Math.ceil(Math.max(...finalData.map(d => isPerformaMode ? d.performa : d.persen)) * 1.1)
+                            suggestedMax: Math.ceil(Math.max(...finalData.map(d => isPerformaMode ? d.performa : d.persen), 100) * 1.1)
                         }
                     }
                 }
@@ -447,22 +468,29 @@
         }
 
         function hitungDanTampilkanTren(dataFiltered, config) {
+            const ind = document.getElementById('filterIndikator').value;
             const containerTabelTren = document.getElementById('containerTabelTren');
             const headTabelTren = document.getElementById('headTabelTren');
             const bodyTabelTren = document.getElementById('bodyTabelTren');
             
-            // 1. CARI BATAS BULAN TERAKHIR
+            // 1. CARI BATAS BULAN TERAKHIR BERDASARKAN POLA INDIKATOR
             let maxBulan = 0;
             for (let i = 0; i < 12; i++) {
                 let totalLaporProv = 0;
                 semuaDataMentah.forEach(d => {
-                    totalLaporProv += (config.type === 'cakupan' || config.type === 'pa_mkjp') ? bersihkanAngka(d.seluruhKolom[17 + i]) : bersihkanAngka(d.seluruhKolom[6 + i]);
+                    if (ind === 'ppks' || ind === 'bp') {
+                        totalLaporProv += bersihkanAngka(d.seluruhKolom[16 + i]); // Kolom Q-AB
+                    } else if (config.type === 'cakupan' || config.type === 'pa_mkjp') {
+                        totalLaporProv += bersihkanAngka(d.seluruhKolom[17 + i]);
+                    } else {
+                        totalLaporProv += bersihkanAngka(d.seluruhKolom[6 + i]);
+                    }
                 });
                 if (totalLaporProv > 0) maxBulan = i + 1;
             }
             if (maxBulan === 0) maxBulan = 1;
 
-            // 2. GENERATE HEADER
+            // 2. GENERATE HEADER TREN
             let headerHtml = `<tr><th class="p-3 border border-gray-200">Bulan</th>`;
             if (config.type === 'pa_mkjp') {
                 headerHtml += `<th class="p-3 border border-gray-200">PA Modern</th><th class="p-3 border border-gray-200">PA MKJP</th><th class="p-3 border border-gray-200">% PA MKJP</th>`;
@@ -481,23 +509,23 @@
             
             let labels = [], values = [];
 
-            // 3. LOOP DATA PER BULAN
+            // 3. LOOP BULAN UNTUK HITUNG TREN
             for (let i = 0; i < maxBulan; i++) {
                 const b = i + 1;
                 const idealBulanKe = (b / 12) * 100;
                 let totalTarget = 0, totalLapor = 0;
 
                 dataFiltered.forEach(d => {
-                    let target = 0, lapor = 0;
-                    if (config.type === 'cakupan' || config.type === 'pa_mkjp') {
-                        target = bersihkanAngka(d.seluruhKolom[5 + i]);
-                        lapor = bersihkanAngka(d.seluruhKolom[17 + i]);
+                    if (ind === 'ppks' || ind === 'bp') {
+                        totalTarget += bersihkanAngka(d.seluruhKolom[4 + i]);  // E-P
+                        totalLapor += bersihkanAngka(d.seluruhKolom[16 + i]);  // Q-AB
+                    } else if (config.type === 'cakupan' || config.type === 'pa_mkjp') {
+                        totalTarget += bersihkanAngka(d.seluruhKolom[5 + i]);
+                        totalLapor += bersihkanAngka(d.seluruhKolom[17 + i]);
                     } else {
-                        target = bersihkanAngka(d.seluruhKolom[5]);
-                        lapor = bersihkanAngka(d.seluruhKolom[6 + i]);
+                        totalTarget += bersihkanAngka(d.seluruhKolom[5]);
+                        totalLapor += bersihkanAngka(d.seluruhKolom[6 + i]);
                     }
-                    totalTarget += target;
-                    totalLapor += lapor;
                 });
                 
                 let persen = totalTarget > 0 ? (totalLapor / totalTarget) * 100 : 0;
@@ -509,7 +537,6 @@
                     performa = (persen / 49.5) * 100;
                 }
 
-                // --- LOGIKA PEWARNAAN ---
                 const statusPerforma = getStatusColor(performa);
                 const statusPersen = (config.type === 'pb' || config.type === 'pa_mkjp') ? statusPerforma : getStatusColor(persen);
 
@@ -529,7 +556,7 @@
                 values.push(config.type === 'pb' || config.type === 'pa_mkjp' ? performa : persen);
             }
 
-            // 5. RENDER GRAFIK
+            // 4. GRAFIK LINE TREN BULANAN
             if(chartTren) chartTren.destroy();
             const isPerformaModeTren = config.type === 'pb' || config.type === 'pa_mkjp';
             
