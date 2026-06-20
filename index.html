@@ -11,35 +11,63 @@
     <header class="bg-blue-600 text-white rounded-b-[40px] shadow-lg pt-6 pb-20 px-6 relative">
         <div class="max-w-7xl mx-auto">
             
-            <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-12">
+            <div class="flex flex-col xl:flex-row justify-between items-center gap-4 mb-12">
                 <div class="bg-white p-2 md:p-2.5 rounded-xl shadow-sm">
                     <img src="logo_bkkbn_bali.png" alt="Logo KEMENDUKBANGGA BKKBN" class="h-8 md:h-9 object-contain">
                 </div>
 
-                <nav class="flex flex-wrap justify-center items-center gap-2 bg-white/10 p-1.5 rounded-2xl backdrop-blur-md border border-white/20 shadow-inner">
+                <nav class="flex flex-wrap justify-center items-center gap-2 bg-white/10 p-1.5 rounded-2xl backdrop-blur-md border border-white/20 shadow-inner relative z-50">
                     <a href="index.html" class="bg-white text-blue-700 px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-sm">
                         Beranda Portal
                     </a>
-                    <a href="index_silaga.html" class="hover:bg-white/20 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-all">
-                        SILAGA Kencana
-                    </a>
+
+                    <div class="relative group">
+                        <a href="index_silaga.html" class="hover:bg-white/20 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-1 cursor-pointer">
+                            SILAGA Kencana
+                            <svg class="w-3 h-3 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </a>
+                        <div class="absolute left-0 top-full pt-1 w-48 hidden group-hover:block z-50">
+                            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-1.5 flex flex-col gap-0.5">
+                                <a href="dashboard.html" class="block px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all">Monitoring Capaian</a>
+                                <a href="index_silaga.html" class="block px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all">Feedback Bulanan</a>
+                                <a href="index_silaga.html" class="block px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all">Sertifikat</a>
+                            </div>
+                        </div>
+                    </div>
+
                     <a href="https://sites.google.com/view/aksikbkr/dashboard-monitoring-indikator-kbkr" target="_blank" class="hover:bg-white/20 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-1">
                         AKSI KBKR
                         <svg class="w-3 h-3 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                     </a>
+
                     <a href="https://simadu.bkkbnbali.id/" target="_blank" class="hover:bg-white/20 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-1">
                         SIMADU
                         <svg class="w-3 h-3 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                     </a>
+
                     <a href="https://sites.google.com/view/cidukbali" target="_blank" class="hover:bg-white/20 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-1">
                         CIDUK BALI
                         <svg class="w-3 h-3 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                     </a>
+
+                    <div class="relative group">
+                        <a href="index_momentum.html" class="hover:bg-white/20 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-1 cursor-pointer">
+                            KB MOMENTUM
+                            <svg class="w-3 h-3 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </a>
+                        <div class="absolute left-0 top-full pt-1 w-52 hidden group-hover:block z-50">
+                            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-1.5 flex flex-col gap-0.5">
+                                <a href="https://keluargaberencanabali.github.io/harganas2026/" target="_blank" class="block px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all flex items-center justify-between">
+                                    PSA HARGANAS 2026
+                                    <svg class="w-2.5 h-2.5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </nav>
             </div>
 
-            <div class="text-center space-y-4 max-w-3xl mx-auto">
-
+            <div class="text-center space-y-4 max-w-3xl mx-auto relative z-10">
                 <h1 class="text-4xl md:text-5xl font-black tracking-tight drop-shadow-md">
                     SIMFONI KENCANA
                 </h1>
@@ -57,7 +85,7 @@
     </header>
 
     <main class="max-w-7xl mx-auto p-6 w-full flex-grow -mt-10 relative z-10 space-y-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             
             <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm hover:shadow-xl border border-gray-100 transition-all duration-300 flex flex-col justify-between group border-l-4 border-l-blue-500">
                 <div class="space-y-4">
@@ -65,11 +93,11 @@
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                     </div>
                     <div class="space-y-1">
-                        <h2 class="text-xl font-bold text-gray-800">Dashboard Monitoring SILAGA KENCANA</h2>
-                        <span class="inline-block bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider">Internal App</span>
+                        <h2 class="text-xl font-bold text-gray-800">SILAGA KENCANA</h2>
+                        <span class="inline-block bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider">Internal Portal</span>
                     </div>
                     <p class="text-sm text-gray-500 leading-relaxed">
-                        Pusat pemantauan capaian cakupan wilayah, kuantitas pelaporan, data konstan target, serta visualisasi tren performa bulanan kumulatif Program Bangga Kencana tingkat Provinsi hingga Kecamatan.
+                        Pemantauan capaian cakupan wilayah bulanan kumulatif Program Bangga Kencana serta portal apresiasi e-sertifikat dan feedback pelaporan SIGA.
                     </p>
                 </div>
                 <div class="pt-6">
@@ -86,11 +114,11 @@
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                     </div>
                     <div class="space-y-1">
-                        <h2 class="text-xl font-bold text-gray-800">Dashboard Monitoring AKSI KBKR</h2>
+                        <h2 class="text-xl font-bold text-gray-800">AKSI KBKR</h2>
                         <span class="inline-block bg-green-50 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider">Google Sites Portal</span>
                     </div>
                     <p class="text-sm text-gray-500 leading-relaxed">
-                        Akselerasi Kinerja dan Sinergitas Program Keluarga Berencana dan Kesehatan Reproduksi (KBKR). Memuat indikator klaster pelayanan KB, kesertaan ber-KB, dan koordinasi terpadu faskes.
+                        Akselerasi Kinerja dan Sinergitas Program Keluarga Berencana dan Kesehatan Reproduksi (KBKR). Memuat klaster pelayanan KB terintegrasi faskes.
                     </p>
                 </div>
                 <div class="pt-6">
@@ -107,11 +135,11 @@
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
                     <div class="space-y-1">
-                        <h2 class="text-xl font-bold text-gray-800">Dashboard Monitoring SIMADU</h2>
+                        <h2 class="text-xl font-bold text-gray-800">SIMADU</h2>
                         <span class="inline-block bg-purple-50 text-purple-700 text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider">Sistem Anggaran</span>
                     </div>
                     <p class="text-sm text-gray-500 leading-relaxed">
-                        Sistem Monitoring Anggaran Terpadu. Portal instrumen kendali akuntabilitas keuangan penyerapan anggaran, pagu realisasi program, serta sinkronisasi penyerapan dana operasional tim kerja.
+                        Sistem Monitoring Anggaran Terpadu. Portal instrumen kendali akuntabilitas penyerapan anggaran operasional tim kerja Perwakilan BKKBN Bali.
                     </p>
                 </div>
                 <div class="pt-6">
@@ -132,7 +160,7 @@
                         <span class="inline-block bg-amber-50 text-amber-700 text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider">Google Sites Portal</span>
                     </div>
                     <p class="text-sm text-gray-500 leading-relaxed">
-                        Catatan Informasi Program Tim Kerja Pengendalian Penduduk. Menyajikan laporan kependudukan, pemetaan sebaran kuantitas keluarga, dan basis referensi data mikro spasial Provinsi Bali.
+                        Catatan Informasi Program Tim Kerja Pengendalian Penduduk. Menyajikan laporan kependudukan dan basis referensi data mikro spasial Bali.
                     </p>
                 </div>
                 <div class="pt-6">
@@ -143,14 +171,34 @@
                 </div>
             </div>
 
+            <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm hover:shadow-xl border border-gray-100 transition-all duration-300 flex flex-col justify-between group border-l-4 border-l-red-500">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 bg-red-50 rounded-2xl flex items-center justify-center text-red-600 group-hover:bg-red-600 group-hover:text-white transition-all duration-300 shadow-inner">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <div class="space-y-1">
+                        <h2 class="text-xl font-bold text-gray-800">KB MOMENTUM</h2>
+                        <span class="inline-block bg-red-50 text-red-700 text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider">Akselerasi Program</span>
+                    </div>
+                    <p class="text-sm text-gray-500 leading-relaxed">
+                        Sistem pemantauan capaian pelayanan KB akseptor baru dan aktif secara berkala sesuai dengan momentum strategis daerah dan nasional.
+                    </p>
+                </div>
+                <div class="pt-6">
+                    <a href="index_momentum.html" class="w-full inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-xl text-sm transition-all shadow-sm hover:shadow-md">
+                        Buka Monitoring Momentum
+                        <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </a>
+                </div>
+            </div>
+
         </div>
     </main>
 
     <footer class="bg-white border-t border-gray-200 mt-12 py-6 text-center text-xs text-gray-500 rounded-t-[30px] shadow-inner">
         <div class="max-w-7xl mx-auto px-6 space-y-2">
             <p class="font-bold text-gray-700 text-sm">SIMFONI KENCANA &copy; 2026</p>
-            <p>KEMENDUKBANGGA/Perwakilan BKKBN Provinsi Bali</p>
-            <p class="text-[10px] text-gray-400">Hub Pengumpulan Data Terintegrasi Multi-Instrumen Evaluasi Program Bangga Kencana</p>
+            <p>KEMENDUKBANGGA/Perwakilan BKKBN Provinsi Bali — Tim Kerja Data dan Informasi</p>
         </div>
     </footer>
 
