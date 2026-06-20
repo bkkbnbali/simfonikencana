@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pusat E-Sertifikat SILAGA KENCANA</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800 min-h-screen flex flex-col">
+
+    <header class="bg-blue-600 text-white rounded-b-[40px] shadow-lg pt-6 pb-24 px-6 relative z-0">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col xl:flex-row justify-between items-center gap-4 mb-12">
+                <div class="bg-white p-2 md:p-2.5 rounded-xl shadow-sm">
+                    <img src="logo_bkkbn_bali2.png" alt="Logo KEMENDUKBANGGA BKKBN" class="h-6 md:h-8 object-contain">
+                </div>
+                <nav class="flex flex-wrap justify-center items-center gap-2 bg-white/10 p-1.5 rounded-2xl backdrop-blur-md border border-white/20 shadow-inner relative z-50">
+                    <a href="index.html" class="hover:bg-white/20 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-all">Beranda Portal</a>
+                    <div class="relative group">
+                        <a href="index_silaga.html" class="bg-white text-blue-700 px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-1 cursor-pointer">
+                            SILAGA Kencana <svg class="w-3 h-3 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </a>
+                        <div class="absolute left-0 top-full pt-1 w-48 hidden group-hover:block z-50">
+                            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-1.5 flex flex-col gap-0.5">
+                                <a href="dashboard.html" class="block px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all">Monitoring Capaian</a>
+                                <a href="feedback.html" class="block px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all">Feedback Bulanan</a>
+                                <a href="sertifikat.html" class="block bg-blue-50 text-blue-600 px-4 py-2 text-xs font-bold rounded-xl transition-all">Sertifikat</a>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="https://sites.google.com/view/aksikbkr/dashboard-monitoring-indikator-kbkr" target="_blank" class="hover:bg-white/20 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-1">AKSI KBKR</a>
+                    <a href="https://simadu.bkkbnbali.id/" target="_blank" class="hover:bg-white/20 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-1">SIMADU</a>
+                    <a href="https://sites.google.com/view/cidukbali" target="_blank" class="hover:bg-white/20 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-1">CIDUK BALI</a>
+                    <a href="index_momentum.html" class="hover:bg-white/20 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-1">KB Momentum</a>
+                </nav>
+            </div>
+            <div class="text-center text-white space-y-2">
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight drop-shadow-sm">PUSAT UNDUHAN E-SERTIFIKAT APRESIASI</h1>
+                <p class="text-blue-100 text-xs md:text-sm uppercase tracking-wider">Arsip Penghargaan Kuantitas & Kualitas Laporan SIGA</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto p-6 w-full flex-grow -mt-12 relative z-10 space-y-6">
+        
+        <div class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-gray-100 text-center space-y-6">
+            <div class="w-14 h-14 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto shadow-inner text-2xl">📜</div>
+             <div class="flex flex-col items-center max-w-md mx-auto space-y-1">
+                <h2 class="text-xl font-bold text-gray-800">Silakan Pilih Periode Dokumen</h2>
+                <p class="text-xs text-gray-400">Sistem akan otomatis mengunduh file PDF apresiasi sesuai tahun dan bulan yang dipilih.</p>
+            </>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto pt-2">
+                <div class="flex flex-col gap-1 text-left">
+                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wide px-1">1. Pilih Tahun</label>
+                    <select id="selectTahun" class="text-gray-800 bg-gray-50 p-3.5 rounded-xl font-bold border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none cursor-pointer shadow-sm">
+                        <option value="2025">Tahun 2024</option>
+                        <option value="2025">Tahun 2025</option>
+                        <option value="2026" selected>Tahun 2026</option>
+                        <option value="2027">Tahun 2027</option>
+                    </select>
+                </div>
+                <div class="flex flex-col gap-1 text-left">
+                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wide px-1">2. Pilih Bulan</label>
+                    <select id="selectBulan" class="text-gray-800 bg-gray-50 p-3.5 rounded-xl font-bold border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none cursor-pointer shadow-sm">
+                        <option value="januari">Januari</option><option value="februari">Februari</option>
+                        <option value="maret">Maret</option><option value="april">April</option>
+                        <option value="mei">Mei</option><option value="juni">Juni</option>
+                        <option value="juli">Juli</option><option value="agustus">Agustus</option>
+                        <option value="september">September</option><option value="oktober">Oktober</option>
+                        <option value="november">November</option><option value="desember">Desember</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="pt-4 max-w-sm mx-auto">
+                <button onclick="unduhSertifikatMultiTahun()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3.5 px-6 rounded-2xl text-sm transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer">
+                    Unduh E-Sertifikat (PDF)
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 space-y-4">
+            <h3 class="text-sm font-bold text-gray-700 uppercase tracking-wider flex items-center gap-2 border-b border-gray-100 pb-3">
+                📌 Catatan Teknis & Kriteria Penerbitan
+            </h3>
+            <ul class="text-xs text-gray-500 space-y-2 list-disc list-inside leading-relaxed">
+                <li>E-Sertifikat diberikan kepada 5 PKB/PLKB terbaik dalam pengelolaan SIGA di tk Desa dengan memenuhi <span class="font-bold text-green-600">target kuantitas pelaporan 100%</span> tepat waktu sebelum batas akhir bulan berjalan.</li>
+                <li>Struktur penyimpanan file statis: <code class="bg-gray-50 text-red-600 p-0.5 rounded px-1 font-mono">pdf/[tahun]/sertifikat_[bulan].pdf</code>.</li>
+                <li>Jika file tidak ditemukan (Error 404), artinya dokumen periode terpilih tersebut memang belum diterbitkan atau di-upload oleh Admin Provinsi.</li>
+            </ul>
+        </div>
+
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-12 py-6 text-center text-xs text-gray-500 rounded-t-[30px] shadow-inner relative z-10">
+        <div class="max-w-7xl mx-auto px-6 space-y-2">
+            <p class="font-bold text-gray-700 text-sm">SIMFONI KENCANA &copy; 2026</p>
+            <p>KEMENDUKBANGGA/Perwakilan BKKBN Provinsi Bali — Tim Kerja Data, Teknologi dan Informasi </p>
+        </div>
+    </footer>
+
+    <script>
+        function unduhSertifikatMultiTahun() {
+            const tahun = document.getElementById('selectTahun').value;
+            const bulan = document.getElementById('selectBulan').value;
+
+            // FORMULA STRUKTUR SUB-FOLDER DINAMIS
+            // Contoh hasil akhir: pdf/2026/sertifikat_maret.pdf
+            const urlFile = 'pdf/' + tahun + '/sertifikat_' + bulan + '.pdf';
+
+            // Perintah browser untuk membuka/mendownload file di tab baru
+            window.open(urlFile, '_blank');
+        }
+    </script>
+
+</body>
+</html>
