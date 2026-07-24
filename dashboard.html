@@ -115,10 +115,68 @@
                 <div id="containerFilterDesa" class="flex flex-col"><label class="text-[10px] font-bold text-gray-500 mb-1.5 uppercase tracking-wide">Desa / Kelurahan</label><select id="filterDesa" onchange="saringDanTampilkanData()" class="text-gray-800 bg-gray-50 p-2.5 rounded-xl font-semibold border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition-all hover:border-blue-400"><option value="SEMUA">-- Semua Desa --</option></select></div>
             </div>
         </div>
-        <div id="cardContainer" class="grid grid-cols-2 md:grid-cols-4 gap-6"><div id="cardTargetKonstanContainer" class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-indigo-500 hidden"><p class="text-xs font-semibold uppercase text-gray-500 tracking-wide">TARGET</p><p id="cardTargetKonstan" class="text-2xl font-bold mt-1 text-gray-800">49.5%</p></div><div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-blue-500"><p id="labelCard1" class="text-xs font-semibold uppercase text-gray-500 tracking-wide">TARGET / ADA</p><p id="cardTotal" class="text-2xl font-bold mt-1 text-gray-800">0</p></div><div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-green-500"><p id="labelCard2" class="text-xs font-semibold uppercase text-gray-500 tracking-wide">REALISASI / LAPOR</p><p id="cardLapor" class="text-2xl font-bold mt-1 text-gray-800">0</p></div><div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-yellow-500"><p id="labelCardCapaian" class="text-xs font-semibold uppercase text-gray-500 tracking-wide">CAPAIAN (%)</p><p id="cardPersen" class="text-2xl font-bold mt-1 text-gray-800">0%</p></div><div id="cardPerformaContainer" class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-purple-500 hidden"><p class="text-xs font-semibold uppercase text-gray-500 tracking-wide">PERFORMA (%)</p><p id="cardPerforma" class="text-2xl font-bold mt-1 text-purple-600">0%</p></div></div>
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200"><h3 class="text-lg font-bold text-gray-700 mb-4 flex items-center gap-2">Grafik Capaian/Performa</h3><div class="h-96"><canvas id="canvasGrafik"></canvas></div></div>
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 overflow-x-auto"><table class="w-full text-left border-collapse whitespace-nowrap"><thead id="headTabel" class="bg-gray-50 text-gray-600 border-b-2 border-gray-200"></thead><tbody id="bodyTabel" class="divide-y divide-gray-100 text-gray-700"></tbody></table></div>
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 space-y-6"><div><h3 id="judulTren" class="text-lg font-bold text-blue-700 uppercase tracking-wide flex items-center gap-2">Tren Capaian Bulanan</h3><p class="text-sm text-gray-500 mt-1">Menampilkan perkembangan indikator berdasarkan wilayah terpilih hingga bulan terakhir penginputan data.</p></div><div class="h-80 relative"><canvas id="canvasGrafikTren"></canvas></div><div id="containerTabelTren" class="overflow-x-auto mt-4 hidden bg-gray-50 p-4 rounded-xl border border-gray-200"><h4 class="text-sm font-bold text-gray-700 mb-3">Detail Data Bulanan Wilayah Terpilih:</h4><table class="w-full text-left border-collapse text-xs"><thead id="headTabelTren" class="bg-blue-100 text-blue-900 border-b border-blue-200"></thead><tbody id="bodyTabelTren" class="divide-y border-b text-gray-700"></tbody></table></div></div>
+
+        <div id="cardContainer" class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div id="cardTargetKonstanContainer" class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-indigo-500 hidden"><p class="text-xs font-semibold uppercase text-gray-500 tracking-wide">TARGET</p><p id="cardTargetKonstan" class="text-2xl font-bold mt-1 text-gray-800">49.5%</p></div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-blue-500"><p id="labelCard1" class="text-xs font-semibold uppercase text-gray-500 tracking-wide">TARGET / ADA</p><p id="cardTotal" class="text-2xl font-bold mt-1 text-gray-800">0</p></div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-green-500"><p id="labelCard2" class="text-xs font-semibold uppercase text-gray-500 tracking-wide">REALISASI / LAPOR</p><p id="cardLapor" class="text-2xl font-bold mt-1 text-gray-800">0</p></div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-yellow-500"><p id="labelCardCapaian" class="text-xs font-semibold uppercase text-gray-500 tracking-wide">CAPAIAN (%)</p><p id="cardPersen" class="text-2xl font-bold mt-1 text-gray-800">0%</p></div>
+            <div id="cardPerformaContainer" class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-purple-500 hidden"><p class="text-xs font-semibold uppercase text-gray-500 tracking-wide">PERFORMA (%)</p><p id="cardPerforma" class="text-2xl font-bold mt-1 text-purple-600">0%</p></div>
+        </div>
+
+        <!-- Keterangan Pembina Wilayah Desa -->
+        <div id="infoPembinaContainer" class="bg-blue-50 border border-blue-200 p-4 rounded-xl hidden text-blue-900 font-semibold text-sm flex items-center gap-2 break-words">
+            <svg class="w-5 h-5 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+            <span id="teksInfoPembina">NAMA PEMBINA WILAYAH DESA ... : -</span>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
+                <h3 class="text-lg font-bold text-gray-700 flex items-center gap-2">Grafik Capaian/Performa</h3>
+            </div>
+            
+            <div class="h-96"><canvas id="canvasGrafik"></canvas></div>
+
+            <!-- Legenda Kategori Warna 1 (Dipindah ke bawah grafik) -->
+            <div class="flex flex-wrap items-center justify-center gap-4 text-xs bg-gray-50 p-3 mt-6 rounded-xl border border-gray-200">
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span><span class="text-gray-600 font-semibold">&lt; 50% (Kurang)</span></div>
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-yellow-500 inline-block"></span><span class="text-gray-600 font-semibold">50% - 74% (Sedang)</span></div>
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-green-500 inline-block"></span><span class="text-gray-600 font-semibold">75% - 99% (Baik)</span></div>
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-blue-500 inline-block"></span><span class="text-gray-600 font-semibold">&ge; 100% (Sangat Baik)</span></div>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 overflow-x-auto">
+            <table class="w-full text-left border-collapse whitespace-nowrap">
+                <thead id="headTabel" class="bg-gray-50 text-gray-600 border-b-2 border-gray-200"></thead>
+                <tbody id="bodyTabel" class="divide-y divide-gray-100 text-gray-700"></tbody>
+            </table>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 space-y-6">
+            <div>
+                <h3 id="judulTren" class="text-lg font-bold text-blue-700 uppercase tracking-wide flex items-center gap-2">Tren Capaian Bulanan</h3>
+                <p class="text-sm text-gray-500 mt-1">Menampilkan perkembangan indikator berdasarkan wilayah terpilih hingga bulan terakhir penginputan data.</p>
+            </div>
+            
+            <div class="h-80 relative"><canvas id="canvasGrafikTren"></canvas></div>
+
+            <!-- Legenda Kategori Warna 2 (Dipindah ke bawah grafik Tren) -->
+            <div class="flex flex-wrap items-center justify-center gap-4 text-xs bg-gray-50 p-3 mt-4 rounded-xl border border-gray-200">
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span><span class="text-gray-600 font-semibold">&lt; 50% (Kurang)</span></div>
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-yellow-500 inline-block"></span><span class="text-gray-600 font-semibold">50% - 74% (Sedang)</span></div>
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-green-500 inline-block"></span><span class="text-gray-600 font-semibold">75% - 99% (Baik)</span></div>
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-blue-500 inline-block"></span><span class="text-gray-600 font-semibold">&ge; 100% (Sangat Baik)</span></div>
+            </div>
+
+            <div id="containerTabelTren" class="overflow-x-auto mt-4 hidden bg-gray-50 p-4 rounded-xl border border-gray-200">
+                <h4 class="text-sm font-bold text-gray-700 mb-3">Detail Data Bulanan Wilayah Terpilih:</h4>
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead id="headTabelTren" class="bg-blue-100 text-blue-900 border-b border-blue-200"></thead>
+                    <tbody id="bodyTabelTren" class="divide-y border-b text-gray-700"></tbody>
+                </table>
+            </div>
+        </div>
     </main>
 
     <footer class="bg-white border-t border-gray-200 mt-12 py-6 text-center text-xs text-gray-500 rounded-t-[30px] shadow-inner relative z-10">
@@ -132,6 +190,15 @@
         Chart.register(ChartDataLabels);
         function bersihkanAngka(val) { if (val === undefined || val === null || val === '') return 0; let str = val.toString().trim().replace(/"/g, '').replace(/\./g, '').replace(/,/g, '.'); let num = parseFloat(str); return isNaN(num) ? 0 : num; }
         function getStatusColor(v) { let val = Number(v) || 0; if (val < 50) return { css: "text-red-600 font-bold", hex: "#ef4444" }; if (val < 75) return { css: "text-yellow-600 font-bold", hex: "#eab308" }; if (val < 100) return { css: "text-green-600 font-bold", hex: "#22c55e" }; return { css: "text-blue-600 font-bold", hex: "#3b82f6" }; }
+        
+        // Fungsi baru untuk mencegah teks koma (seperti S.Pd) terpecah menjadi kolom baru
+        function pecahCSV(row) {
+            const delimiter = row.includes(';') && !row.includes(',') ? ';' : ',';
+            // Regex ini memastikan koma di dalam tanda kutip (") tidak ikut ter-split
+            const regex = new RegExp(`${delimiter}(?=(?:(?:[^"]*"){2})*[^"]*$)`);
+            return row.split(regex).map(item => item.replace(/^"|"$/g, '').trim());
+        }
+        
         const db = {
             tpmb: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=1971994987&single=true&output=csv", type: "cakupan" },
             ppkbd: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=1686763&single=true&output=csv", type: "cakupan" },
@@ -158,14 +225,419 @@
             uppka_hadir: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=421346896&single=true&output=csv", type: "kinerja" },
             PA_MKJP: { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR6UCNI9efCHwGfFiVedr7aeHQUQyF-vPsS_jSbGax9pmjcf0m4L_GifP7XwcBPR_8A4PPp8te44wz/pub?gid=1748139363&single=true&output=csv", type: "pa_mkjp" }
         };  
+
         const daftarBulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         const indeksBulan = { 'Januari': 1, 'Februari': 2, 'Maret': 3, 'April': 4, 'Mei': 5, 'Juni': 6, 'Juli': 7, 'Agustus': 8, 'September': 9, 'Oktober': 10, 'November': 11, 'Desember': 12 };
-        let semuaDataMentah = []; let chart = null; let chartTren = null;
-        async function muatDataIndikator() { const ind = document.getElementById('filterIndikator').value; try { const res = await fetch(db[ind].url); const text = await res.text(); semuaDataMentah = text.split('\n').slice(1).map(r => { const c = r.replace(/"/g, "").split(r.includes(';') ? ';' : ','); if (ind === 'ppks' || ind === 'bp') { if (c.length < 4) return { kab: "", kec: "", desa: "", seluruhKolom: [] }; return { kab: (c[3]||"").trim(), kec: (c[2]||"").trim(), desa: "", seluruhKolom: c }; } else { if (c.length < 5) return { kab: "", kec: "", desa: "", seluruhKolom: [] }; return { kab: (c[4]||"").trim(), kec: (c[3]||"").trim(), desa: (c[2]||"").trim(), seluruhKolom: c }; } }).filter(x => x.kab && x.kab !== "Kabupaten"); const fDesa = document.getElementById('containerFilterDesa'); if (ind === 'ppks' || ind === 'bp') { fDesa.classList.add('hidden'); } else { fDesa.classList.remove('hidden'); } aksiPilihKabupaten(); } catch(e) { console.error("Error muat data:", e); } }
-        function aksiPilihKabupaten() { const kab = document.getElementById('filterKabupaten').value; const dropKec = document.getElementById('filterKecamatan'); const dropDesa = document.getElementById('filterDesa'); dropKec.innerHTML = '<option value="SEMUA">-- Semua Kecamatan --</option>'; dropDesa.innerHTML = '<option value="SEMUA">-- Semua Desa --</option>'; if(kab !== "SEMUA") { const kecs = [...new Set(semuaDataMentah.filter(d => d.kab.toLowerCase() === kab.toLowerCase()).map(d => d.kec))]; kecs.sort().forEach(kec => { if (kec) { let o = document.createElement('option'); o.value = kec; o.textContent = kec; dropKec.appendChild(o); } }); } saringDanTampilkanData(); }
-        function aksiPilihKecamatan() { const ind = document.getElementById('filterIndikator').value; const kab = document.getElementById('filterKabupaten').value; const kec = document.getElementById('filterKecamatan').value; const dropDesa = document.getElementById('filterDesa'); dropDesa.innerHTML = '<option value="SEMUA">-- Semua Desa --</option>'; if(ind !== 'ppks' && ind !== 'bp' && kec !== "SEMUA" && kab !== "SEMUA") { const desas = [...new Set(semuaDataMentah.filter(d => d.kab.toLowerCase() === kab.toLowerCase() && d.kec.toLowerCase() === kec.toLowerCase()).map(d => d.desa))]; desas.sort().forEach(desa => { if (desa) { let o = document.createElement('option'); o.value = desa; o.textContent = desa; dropDesa.appendChild(o); } }); } saringDanTampilkanData(); }
-        function saringDanTampilkanData() { const ind = document.getElementById('filterIndikator').value; const config = db[ind]; const b = indeksBulan[document.getElementById('filterBulan').value]; const ideal = (b / 12) * 100; const kab = document.getElementById('filterKabupaten').value; const kec = document.getElementById('filterKecamatan').value; const desa = document.getElementById('filterDesa').value; const dataFiltered = semuaDataMentah.filter(d => (kab === "SEMUA" || d.kab.toLowerCase() === kab.toLowerCase()) && (kec === "SEMUA" || d.kec.toLowerCase() === kec.toLowerCase()) && (ind === 'ppks' || ind === 'bp' || desa === "SEMUA" || d.desa.toLowerCase() === desa.toLowerCase())); let groupKey = "kab"; if (ind === 'ppks' || ind === 'bp') { groupKey = kab === "SEMUA" ? "kab" : "kec"; } else { groupKey = kab === "SEMUA" ? "kab" : (kec === "SEMUA" ? "kec" : "desa"); } const aggregated = {}; dataFiltered.forEach(d => { let target = 0, lapor = 0; if (ind === 'ppks' || ind === 'bp') { target = bersihkanAngka(d.seluruhKolom[4 + (b - 1)]); lapor = bersihkanAngka(d.seluruhKolom[16 + (b - 1)]); } else if (config.type === 'cakupan' || config.type === 'pa_mkjp') { target = bersihkanAngka(d.seluruhKolom[5 + (b - 1)]); lapor = bersihkanAngka(d.seluruhKolom[17 + (b - 1)]); } else { target = bersihkanAngka(d.seluruhKolom[5]); lapor = bersihkanAngka(d.seluruhKolom[6 + (b - 1)]); } const key = d[groupKey]; if (key && key !== "") { if (!aggregated[key]) aggregated[key] = { target: 0, lapor: 0 }; aggregated[key].target += target; aggregated[key].lapor += lapor; } }); let finalData = Object.keys(aggregated).map(k => { let persen = aggregated[k].target > 0 ? (aggregated[k].lapor / aggregated[k].target) * 100 : 0; let performa = persen; if (config.type === 'pb' && ideal > 0) { performa = (persen / ideal) * 100; } else if (config.type === 'pa_mkjp') { performa = (persen / 49.5) * 100; } return { label: k, target: aggregated[k].target, lapor: aggregated[k].lapor, persen, performa }; }).sort((a,b) => (config.type === 'pb' || config.type === 'pa_mkjp' ? b.performa - a.performa : b.persen - a.persen)); const head = document.getElementById('headTabel'); let headerTabelHtml = `<tr><th class="p-4">Wilayah</th>`; if (config.type === 'pa_mkjp') { headerTabelHtml += `<th class="p-4">Jumlah PA Modern</th><th class="p-4">Jumlah PA MKJP</th><th class="p-4">% PA MKJP</th>`; } else { headerTabelHtml += `<th class="p-4">Target / Ada</th><th class="p-4">Realisasi / Lapor</th><th class="p-4">Capaian %</th>`; } if (config.type === 'pb' || config.type === 'pa_mkjp') { headerTabelHtml += `<th class="p-4">Performa %</th>`; } headerTabelHtml += `</tr>`; head.innerHTML = headerTabelHtml; const body = document.getElementById('bodyTabel'); body.innerHTML = ""; let tT = 0, tL = 0; if (finalData.length === 0) { body.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500">Tidak ada data untuk wilayah ini.</td></tr>`; } else { finalData.forEach(d => { tT += d.target; tL += d.lapor; const cssPerforma = getStatusColor(d.performa).css; const cssPersen = (config.type === 'pb' || config.type === 'pa_mkjp') ? cssPerforma : getStatusColor(d.persen).css; let row = `<tr class="hover:bg-gray-50 transition-colors"><td class="p-4 font-semibold">${d.label}</td><td class="p-4">${d.target.toLocaleString('id-ID')}</td><td class="p-4">${d.lapor.toLocaleString('id-ID')}</td><td class="p-4 ${cssPersen}">${(Number(d.persen) || 0).toFixed(2)}%</td>`; if (config.type === 'pb' || config.type === 'pa_mkjp') { row += `<td class="p-4 ${cssPerforma}">${(Number(d.performa) || 0).toFixed(2)}%</td>`; } row += `</tr>`; body.innerHTML += row; }); } document.getElementById('cardTotal').textContent = tT.toLocaleString('id-ID'); document.getElementById('cardLapor').textContent = tL.toLocaleString('id-ID'); const totalPersen = tT > 0 ? (tL / tT) * 100 : 0; let totalPerforma = totalPersen; if (config.type === 'pb' && ideal > 0) totalPerforma = (totalPersen / ideal) * 100; else if (config.type === 'pa_mkjp') totalPerforma = (totalPersen / 49.5) * 100; const cardPersenEl = document.getElementById('cardPersen'); cardPersenEl.textContent = totalPersen.toFixed(2) + "%"; cardPersenEl.className = `text-2xl font-bold mt-1 ${(config.type === 'pb' || config.type === 'pa_mkjp') ? getStatusColor(totalPerforma).css : getStatusColor(totalPersen).css}`; const cardContainer = document.getElementById('cardContainer'); const label1 = document.getElementById('labelCard1'); const label2 = document.getElementById('labelCard2'); const labelCapaian = document.getElementById('labelCardCapaian'); const targetTetapContainer = document.getElementById('cardTargetKonstanContainer'); if (config.type === 'pa_mkjp') { label1.textContent = "JUMLAH PA MODERN"; label2.textContent = "JUMLAH PA MKJP"; labelCapaian.textContent = "% PA MKJP"; targetTetapContainer.classList.remove('hidden'); cardContainer.className = "grid grid-cols-2 md:grid-cols-5 gap-6"; } else { label1.textContent = "TARGET / ADA"; label2.textContent = "REALISASI / LAPOR"; labelCapaian.textContent = "CAPAIAN (%)"; targetTetapContainer.classList.add('hidden'); cardContainer.className = "grid grid-cols-2 md:grid-cols-4 gap-6"; } const containerPerforma = document.getElementById('cardPerformaContainer'); if (config.type === 'pb' || config.type === 'pa_mkjp') { containerPerforma.classList.remove('hidden'); document.getElementById('cardPerforma').textContent = (Number(totalPerforma) || 0).toFixed(2) + "%"; document.getElementById('cardPerforma').className = `text-2xl font-bold mt-1 ${getStatusColor(totalPerforma).css}`; } else { containerPerforma.classList.add('hidden'); } if(chart) chart.destroy(); const isPerformaMode = config.type === 'pb' || config.type === 'pa_mkjp'; const bgColors = finalData.map(d => getStatusColor(isPerformaMode ? d.performa : d.persen).hex); chart = new Chart(document.getElementById('canvasGrafik').getContext('2d'), { type: 'bar', data: { labels: finalData.map(d => d.label), datasets: [{ label: isPerformaMode ? 'Performa %' : 'Capaian %', data: finalData.map(d => isPerformaMode ? d.performa : d.persen), backgroundColor: bgColors }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { datalabels: { anchor: 'end', align: 'top', color: '#1f2937', font: { weight: 'bold' }, formatter: v => (Number(v) || 0).toFixed(2) + '%' } }, scales: { y: { beginAtZero: true, suggestedMax: Math.ceil(Math.max(...finalData.map(d => isPerformaMode ? d.performa : d.persen), 100) * 1.1) } } } }); hitungDanTampilkanTren(dataFiltered, config); }
-        function hitungDanTampilkanTren(dataFiltered, config) { const ind = document.getElementById('filterIndikator').value; const containerTabelTren = document.getElementById('containerTabelTren'); const headTabelTren = document.getElementById('headTabelTren'); const bodyTabelTren = document.getElementById('bodyTabelTren'); let maxBulan = 0; for (let i = 0; i < 12; i++) { let totalLaporProv = 0; semuaDataMentah.forEach(d => { if (ind === 'ppks' || ind === 'bp') { if (d.seluruhKolom.length > (16+i)) totalLaporProv += bersihkanAngka(d.seluruhKolom[16 + i]); } else if (config.type === 'cakupan' || config.type === 'pa_mkjp') { if (d.seluruhKolom.length > (17+i)) totalLaporProv += bersihkanAngka(d.seluruhKolom[17 + i]); } else { if (d.seluruhKolom.length > (6+i)) totalLaporProv += bersihkanAngka(d.seluruhKolom[6 + i]); } }); if (totalLaporProv > 0) maxBulan = i + 1; } if (maxBulan === 0) maxBulan = 1; let headerHtml = `<tr><th class="p-3 border border-gray-200">Bulan</th>`; if (config.type === 'pa_mkjp') { headerHtml += `<th class="p-3 border border-gray-200">PA Modern</th><th class="p-3 border border-gray-200">PA MKJP</th><th class="p-3 border border-gray-200">% PA MKJP</th>`; } else { headerHtml += `<th class="p-3 border border-gray-200">Target / Ada</th><th class="p-3 border border-gray-200">Realisasi / Lapor</th><th class="p-3 border border-gray-200">Capaian %</th>`; } if (config.type === 'pb' || config.type === 'pa_mkjp') { headerHtml += `<th class="p-3 border border-gray-200">Performa %</th>`; } headerHtml += `</tr>`; headTabelTren.innerHTML = headerHtml; containerTabelTren.classList.remove('hidden'); bodyTabelTren.innerHTML = ""; let labels = [], values = []; for (let i = 0; i < maxBulan; i++) { const b = i + 1; const idealBulanKe = (b / 12) * 100; let totalTarget = 0, totalLapor = 0; dataFiltered.forEach(d => { if (ind === 'ppks' || ind === 'bp') { if(d.seluruhKolom.length > (4+i)) totalTarget += bersihkanAngka(d.seluruhKolom[4 + i]); if(d.seluruhKolom.length > (16+i)) totalLapor += bersihkanAngka(d.seluruhKolom[16 + i]); } else if (config.type === 'cakupan' || config.type === 'pa_mkjp') { if(d.seluruhKolom.length > (5+i)) totalTarget += bersihkanAngka(d.seluruhKolom[5 + i]); if(d.seluruhKolom.length > (17+i)) totalLapor += bersihkanAngka(d.seluruhKolom[17 + i]); } else { if(d.seluruhKolom.length > 5) totalTarget += bersihkanAngka(d.seluruhKolom[5]); if(d.seluruhKolom.length > (6+i)) totalLapor += bersihkanAngka(d.seluruhKolom[6 + i]); } }); let persen = totalTarget > 0 ? (totalLapor / totalTarget) * 100 : 0; let performa = persen; if (config.type === 'pb' && idealBulanKe > 0) { performa = (persen / idealBulanKe) * 100; } else if (config.type === 'pa_mkjp') { performa = (persen / 49.5) * 100; } const statusPerforma = getStatusColor(performa); const statusPersen = (config.type === 'pb' || config.type === 'pa_mkjp') ? statusPerforma : getStatusColor(persen); let row = `<tr class="hover:bg-white transition-colors"><td class="p-3 border border-gray-200 font-medium">${daftarBulan[i]}</td><td class="p-3 border border-gray-200">${totalTarget.toLocaleString()}</td><td class="p-3 border border-gray-200">${totalLapor.toLocaleString()}</td><td class="p-3 border border-gray-200 ${statusPersen.css}">${persen.toFixed(2)}%</td>`; if (config.type === 'pb' || config.type === 'pa_mkjp') { row += `<td class="p-3 border border-gray-200 ${statusPerforma.css}">${performa.toFixed(2)}%</td>`; } row += `</tr>`; bodyTabelTren.innerHTML += row; labels.push(daftarBulan[i]); values.push(config.type === 'pb' || config.type === 'pa_mkjp' ? performa : persen); } if(chartTren) chartTren.destroy(); const isPerformaModeTren = config.type === 'pb' || config.type === 'pa_mkjp'; chartTren = new Chart(document.getElementById('canvasGrafikTren').getContext('2d'), { type: 'line', data: { labels: labels, datasets: [{ label: isPerformaModeTren ? 'Performa Kinerja (%)' : 'Persentase Capaian (%)', data: values, borderColor: '#2563eb', backgroundColor: 'rgba(37, 99, 235, 0.1)', borderWidth: 3, tension: 0.2, fill: true, pointRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { datalabels: { anchor: 'top', align: 'top', color: '#4b5563', font: { weight: 'bold', size: 10 }, formatter: v => (Number(v) || 0).toFixed(1) + '%' } }, scales: { y: { beginAtZero: true, max: Math.ceil(Math.max(...values, 100) * 1.1) } } } }); }
+        
+        let semuaDataMentah = []; 
+        let petaPembinaWilayah = {}; 
+        let chart = null; 
+        let chartTren = null;
+
+        async function muatDataIndikator() { 
+            const ind = document.getElementById('filterIndikator').value; 
+            try { 
+                if (Object.keys(petaPembinaWilayah).length === 0) {
+                    try {
+                        const resTpmb = await fetch(db['tpmb'].url);
+                        const textTpmb = await resTpmb.text();
+                        textTpmb.split('\n').slice(1).forEach(r => {
+                            const c = pecahCSV(r); // Memakai fungsi yang sudah diperbaiki
+                            if (c.length >= 5) {
+                                const kab = (c[4]||"").toLowerCase();
+                                const kec = (c[3]||"").toLowerCase();
+                                const desa = (c[2]||"").toLowerCase();
+                                const pembina = (c[c.length - 1]||"-"); 
+                                if (kab && kec && desa) {
+                                    petaPembinaWilayah[`${kab}|${kec}|${desa}`] = pembina;
+                                }
+                            }
+                        });
+                    } catch(err) {
+                        console.error("Gagal memuat referensi pembina wilayah:", err);
+                    }
+                }
+
+                const res = await fetch(db[ind].url); 
+                const text = await res.text(); 
+                semuaDataMentah = text.split('\n').slice(1).map(r => { 
+                    const c = pecahCSV(r); // Memakai fungsi yang sudah diperbaiki
+                    if (ind === 'ppks' || ind === 'bp') { 
+                        if (c.length < 4) return { kab: "", kec: "", desa: "", seluruhKolom: [] }; 
+                        return { kab: (c[3]||""), kec: (c[2]||""), desa: "", seluruhKolom: c }; 
+                    } else { 
+                        if (c.length < 5) return { kab: "", kec: "", desa: "", seluruhKolom: [] }; 
+                        return { kab: (c[4]||""), kec: (c[3]||""), desa: (c[2]||""), seluruhKolom: c }; 
+                    } 
+                }).filter(x => x.kab && x.kab.toLowerCase() !== "kabupaten"); 
+                
+                const fDesa = document.getElementById('containerFilterDesa'); 
+                if (ind === 'ppks' || ind === 'bp') { 
+                    fDesa.classList.add('hidden'); 
+                } else { 
+                    fDesa.classList.remove('hidden'); 
+                } 
+                aksiPilihKabupaten(); 
+            } catch(e) { 
+                console.error("Error muat data:", e); 
+            } 
+        }
+
+        function aksiPilihKabupaten() { 
+            const kab = document.getElementById('filterKabupaten').value; 
+            const dropKec = document.getElementById('filterKecamatan'); 
+            const dropDesa = document.getElementById('filterDesa'); 
+            dropKec.innerHTML = '<option value="SEMUA">-- Semua Kecamatan --</option>'; 
+            dropDesa.innerHTML = '<option value="SEMUA">-- Semua Desa --</option>'; 
+            if(kab !== "SEMUA") { 
+                const kecs = [...new Set(semuaDataMentah.filter(d => d.kab.toLowerCase() === kab.toLowerCase()).map(d => d.kec))]; 
+                kecs.sort().forEach(kec => { 
+                    if (kec) { 
+                        let o = document.createElement('option'); 
+                        o.value = kec; 
+                        o.textContent = kec; 
+                        dropKec.appendChild(o); 
+                    } 
+                }); 
+            } 
+            saringDanTampilkanData(); 
+        }
+
+        function aksiPilihKecamatan() { 
+            const ind = document.getElementById('filterIndikator').value; 
+            const kab = document.getElementById('filterKabupaten').value; 
+            const kec = document.getElementById('filterKecamatan').value; 
+            const dropDesa = document.getElementById('filterDesa'); 
+            dropDesa.innerHTML = '<option value="SEMUA">-- Semua Desa --</option>'; 
+            if(ind !== 'ppks' && ind !== 'bp' && kec !== "SEMUA" && kab !== "SEMUA") { 
+                const desas = [...new Set(semuaDataMentah.filter(d => d.kab.toLowerCase() === kab.toLowerCase() && d.kec.toLowerCase() === kec.toLowerCase()).map(d => d.desa))]; 
+                desas.sort().forEach(desa => { 
+                    if (desa) { 
+                        let o = document.createElement('option'); 
+                        o.value = desa; 
+                        o.textContent = desa; 
+                        dropDesa.appendChild(o); 
+                    } 
+                }); 
+            } 
+            saringDanTampilkanData(); 
+        }
+
+        function saringDanTampilkanData() { 
+            const ind = document.getElementById('filterIndikator').value; 
+            const config = db[ind]; 
+            const b = indeksBulan[document.getElementById('filterBulan').value]; 
+            const ideal = (b / 12) * 100; 
+            const kab = document.getElementById('filterKabupaten').value; 
+            const kec = document.getElementById('filterKecamatan').value; 
+            const desa = document.getElementById('filterDesa').value; 
+            
+            const dataFiltered = semuaDataMentah.filter(d => (kab === "SEMUA" || d.kab.toLowerCase() === kab.toLowerCase()) && (kec === "SEMUA" || d.kec.toLowerCase() === kec.toLowerCase()) && (ind === 'ppks' || ind === 'bp' || desa === "SEMUA" || d.desa.toLowerCase() === desa.toLowerCase())); 
+            
+            let groupKey = "kab"; 
+            if (ind === 'ppks' || ind === 'bp') { 
+                groupKey = kab === "SEMUA" ? "kab" : "kec"; 
+            } else { 
+                groupKey = kab === "SEMUA" ? "kab" : (kec === "SEMUA" ? "kec" : "desa"); 
+            } 
+
+            const aggregated = {}; 
+            dataFiltered.forEach(d => { 
+                let target = 0, lapor = 0; 
+                if (ind === 'ppks' || ind === 'bp') { 
+                    target = bersihkanAngka(d.seluruhKolom[4 + (b - 1)]); 
+                    lapor = bersihkanAngka(d.seluruhKolom[16 + (b - 1)]); 
+                } else if (config.type === 'cakupan' || config.type === 'pa_mkjp') { 
+                    target = bersihkanAngka(d.seluruhKolom[5 + (b - 1)]); 
+                    lapor = bersihkanAngka(d.seluruhKolom[17 + (b - 1)]); 
+                } else { 
+                    target = bersihkanAngka(d.seluruhKolom[5]); 
+                    lapor = bersihkanAngka(d.seluruhKolom[6 + (b - 1)]); 
+                } 
+                const key = d[groupKey]; 
+                if (key && key !== "") { 
+                    if (!aggregated[key]) aggregated[key] = { target: 0, lapor: 0, kab: d.kab, kec: d.kec, desa: d.desa }; 
+                    aggregated[key].target += target; 
+                    aggregated[key].lapor += lapor; 
+                } 
+            }); 
+
+            let finalData = Object.keys(aggregated).map(k => { 
+                let item = aggregated[k];
+                let persen = item.target > 0 ? (item.lapor / item.target) * 100 : 0; 
+                let performa = persen; 
+                if (config.type === 'pb' && ideal > 0) { 
+                    performa = (persen / ideal) * 100; 
+                } else if (config.type === 'pa_mkjp') { 
+                    performa = (persen / 49.5) * 100; 
+                } 
+                
+                let pembinaWilayah = "-";
+                if (groupKey === "desa") {
+                    let kKey = `${item.kab.toLowerCase()}|${item.kec.toLowerCase()}|${k.toLowerCase()}`;
+                    pembinaWilayah = petaPembinaWilayah[kKey] || "-";
+                }
+
+                return { label: k, target: item.target, lapor: item.lapor, persen, performa, pembinaWilayah }; 
+            }).sort((a,b) => (config.type === 'pb' || config.type === 'pa_mkjp' ? b.performa - a.performa : b.persen - a.persen)); 
+
+            const infoPembinaContainer = document.getElementById('infoPembinaContainer');
+            const teksInfoPembina = document.getElementById('teksInfoPembina');
+            if (ind !== 'ppks' && ind !== 'bp' && desa !== "SEMUA" && kab !== "SEMUA" && kec !== "SEMUA") {
+                let kKey = `${kab.toLowerCase()}|${kec.toLowerCase()}|${desa.toLowerCase()}`;
+                let namaPembina = petaPembinaWilayah[kKey] || "Tidak ditemukan di database";
+                teksInfoPembina.textContent = `NAMA PEMBINA WILAYAH DESA ${desa.toUpperCase()} : ${namaPembina}`;
+                infoPembinaContainer.classList.remove('hidden');
+            } else {
+                infoPembinaContainer.classList.add('hidden');
+            }
+
+            const head = document.getElementById('headTabel'); 
+            let headerTabelHtml = `<tr><th class="p-4">Wilayah</th>`; 
+            if (groupKey === "desa") {
+                headerTabelHtml += `<th class="p-4">Nama Pembina Wilayah</th>`;
+            }
+            if (config.type === 'pa_mkjp') { 
+                headerTabelHtml += `<th class="p-4">Jumlah PA Modern</th><th class="p-4">Jumlah PA MKJP</th><th class="p-4">% PA MKJP</th>`; 
+            } else { 
+                headerTabelHtml += `<th class="p-4">Target / Ada</th><th class="p-4">Realisasi / Lapor</th><th class="p-4">Capaian %</th>`; 
+            } 
+            if (config.type === 'pb' || config.type === 'pa_mkjp') { 
+                headerTabelHtml += `<th class="p-4">Performa %</th>`; 
+            } 
+            headerTabelHtml += `</tr>`; 
+            head.innerHTML = headerTabelHtml; 
+
+            const body = document.getElementById('bodyTabel'); 
+            body.innerHTML = ""; 
+            let tT = 0, tL = 0; 
+            
+            if (finalData.length === 0) { 
+                let colSpanSpan = groupKey === "desa" ? 6 : 5;
+                body.innerHTML = `<tr><td colspan="${colSpanSpan}" class="p-4 text-center text-gray-500">Tidak ada data untuk wilayah ini.</td></tr>`; 
+            } else { 
+                finalData.forEach(d => { 
+                    tT += d.target; 
+                    tL += d.lapor; 
+                    const cssPerforma = getStatusColor(d.performa).css; 
+                    const cssPersen = (config.type === 'pb' || config.type === 'pa_mkjp') ? cssPerforma : getStatusColor(d.persen).css; 
+                    
+                    let row = `<tr class="hover:bg-gray-50 transition-colors"><td class="p-4 font-semibold">${d.label}</td>`;
+                    if (groupKey === "desa") {
+                        row += `<td class="p-4 text-gray-600 font-medium">${d.pembinaWilayah}</td>`;
+                    }
+                    row += `<td class="p-4">${d.target.toLocaleString('id-ID')}</td><td class="p-4">${d.lapor.toLocaleString('id-ID')}</td><td class="p-4 ${cssPersen}">${(Number(d.persen) || 0).toFixed(2)}%</td>`; 
+                    if (config.type === 'pb' || config.type === 'pa_mkjp') { 
+                        row += `<td class="p-4 ${cssPerforma}">${(Number(d.performa) || 0).toFixed(2)}%</td>`; 
+                    } 
+                    row += `</tr>`; 
+                    body.innerHTML += row; 
+                }); 
+            } 
+
+            document.getElementById('cardTotal').textContent = tT.toLocaleString('id-ID'); 
+            document.getElementById('cardLapor').textContent = tL.toLocaleString('id-ID'); 
+            
+            const totalPersen = tT > 0 ? (tL / tT) * 100 : 0; 
+            let totalPerforma = totalPersen; 
+            if (config.type === 'pb' && ideal > 0) totalPerforma = (totalPersen / ideal) * 100; 
+            else if (config.type === 'pa_mkjp') totalPerforma = (totalPersen / 49.5) * 100; 
+            
+            const cardPersenEl = document.getElementById('cardPersen'); 
+            cardPersenEl.textContent = totalPersen.toFixed(2) + "%"; 
+            cardPersenEl.className = `text-2xl font-bold mt-1 ${(config.type === 'pb' || config.type === 'pa_mkjp') ? getStatusColor(totalPerforma).css : getStatusColor(totalPersen).css}`; 
+            
+            const cardContainer = document.getElementById('cardContainer'); 
+            const label1 = document.getElementById('labelCard1'); 
+            const label2 = document.getElementById('labelCard2'); 
+            const labelCapaian = document.getElementById('labelCardCapaian'); 
+            const targetTetapContainer = document.getElementById('cardTargetKonstanContainer'); 
+            
+            if (config.type === 'pa_mkjp') { 
+                label1.textContent = "JUMLAH PA MODERN"; 
+                label2.textContent = "JUMLAH PA MKJP"; 
+                labelCapaian.textContent = "% PA MKJP"; 
+                targetTetapContainer.classList.remove('hidden'); 
+                cardContainer.className = "grid grid-cols-2 md:grid-cols-5 gap-6"; 
+            } else { 
+                label1.textContent = "TARGET / ADA"; 
+                label2.textContent = "REALISASI / LAPOR"; 
+                labelCapaian.textContent = "CAPAIAN (%)"; 
+                targetTetapContainer.classList.add('hidden'); 
+                cardContainer.className = "grid grid-cols-2 md:grid-cols-4 gap-6"; 
+            } 
+
+            const containerPerforma = document.getElementById('cardPerformaContainer'); 
+            if (config.type === 'pb' || config.type === 'pa_mkjp') { 
+                containerPerforma.classList.remove('hidden'); 
+                document.getElementById('cardPerforma').textContent = (Number(totalPerforma) || 0).toFixed(2) + "%"; 
+                document.getElementById('cardPerforma').className = `text-2xl font-bold mt-1 ${getStatusColor(totalPerforma).css}`; 
+            } else { 
+                containerPerforma.classList.add('hidden'); 
+            } 
+
+            if(chart) chart.destroy(); 
+            const isPerformaMode = config.type === 'pb' || config.type === 'pa_mkjp'; 
+            const bgColors = finalData.map(d => getStatusColor(isPerformaMode ? d.performa : d.persen).hex); 
+            
+            chart = new Chart(document.getElementById('canvasGrafik').getContext('2d'), { 
+                type: 'bar', 
+                data: { 
+                    labels: finalData.map(d => d.label), 
+                    datasets: [{ 
+                        label: isPerformaMode ? 'Performa %' : 'Capaian %', 
+                        data: finalData.map(d => isPerformaMode ? d.performa : d.persen), 
+                        backgroundColor: bgColors 
+                    }] 
+                }, 
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    plugins: { 
+                        datalabels: { 
+                            anchor: 'end', 
+                            align: 'top', 
+                            color: '#1f2937', 
+                            font: { weight: 'bold' }, 
+                            formatter: v => (Number(v) || 0).toFixed(2) + '%' 
+                        } 
+                    }, 
+                    scales: { 
+                        y: { 
+                            beginAtZero: true, 
+                            suggestedMax: Math.ceil(Math.max(...finalData.map(d => isPerformaMode ? d.performa : d.persen), 100) * 1.1) 
+                        } 
+                    } 
+                } 
+            }); 
+
+            hitungDanTampilkanTren(dataFiltered, config); 
+
+            // POP UP Jika Data Belum Tersedia (Timeout agar grafik render ulang dulu menjadi kosong sebelum popup muncul)
+            if (tT === 0 && tL === 0) {
+                setTimeout(() => {
+                    alert("Data pada bulan ini belum tersedia.");
+                }, 300);
+            }
+        }
+
+        function hitungDanTampilkanTren(dataFiltered, config) { 
+            const ind = document.getElementById('filterIndikator').value; 
+            const containerTabelTren = document.getElementById('containerTabelTren'); 
+            const headTabelTren = document.getElementById('headTabelTren'); 
+            const bodyTabelTren = document.getElementById('bodyTabelTren'); 
+            
+            let maxBulan = 0; 
+            for (let i = 0; i < 12; i++) { 
+                let totalLaporProv = 0; 
+                semuaDataMentah.forEach(d => { 
+                    if (ind === 'ppks' || ind === 'bp') { 
+                        if (d.seluruhKolom.length > (16+i)) totalLaporProv += bersihkanAngka(d.seluruhKolom[16 + i]); 
+                    } else if (config.type === 'cakupan' || config.type === 'pa_mkjp') { 
+                        if (d.seluruhKolom.length > (17+i)) totalLaporProv += bersihkanAngka(d.seluruhKolom[17 + i]); 
+                    } else { 
+                        if (d.seluruhKolom.length > (6+i)) totalLaporProv += bersihkanAngka(d.seluruhKolom[6 + i]); 
+                    } 
+                }); 
+                if (totalLaporProv > 0) maxBulan = i + 1; 
+            } 
+            if (maxBulan === 0) maxBulan = 1; 
+
+            let headerHtml = `<tr><th class="p-3 border border-gray-200">Bulan</th>`; 
+            if (config.type === 'pa_mkjp') { 
+                headerHtml += `<th class="p-3 border border-gray-200">PA Modern</th><th class="p-3 border border-gray-200">PA MKJP</th><th class="p-3 border border-gray-200">% PA MKJP</th>`; 
+            } else { 
+                headerHtml += `<th class="p-3 border border-gray-200">Target / Ada</th><th class="p-3 border border-gray-200">Realisasi / Lapor</th><th class="p-3 border border-gray-200">Capaian %</th>`; 
+            } 
+            if (config.type === 'pb' || config.type === 'pa_mkjp') { 
+                headerHtml += `<th class="p-3 border border-gray-200">Performa %</th>`; 
+            } 
+            headerHtml += `</tr>`; 
+            headTabelTren.innerHTML = headerHtml; 
+            containerTabelTren.classList.remove('hidden'); 
+            bodyTabelTren.innerHTML = ""; 
+
+            let labels = [], values = []; 
+            for (let i = 0; i < maxBulan; i++) { 
+                const b = i + 1; 
+                const idealBulanKe = (b / 12) * 100; 
+                let totalTarget = 0, totalLapor = 0; 
+                
+                dataFiltered.forEach(d => { 
+                    if (ind === 'ppks' || ind === 'bp') { 
+                        if(d.seluruhKolom.length > (4+i)) totalTarget += bersihkanAngka(d.seluruhKolom[4 + i]); 
+                        if(d.seluruhKolom.length > (16+i)) totalLapor += bersihkanAngka(d.seluruhKolom[16 + i]); 
+                    } else if (config.type === 'cakupan' || config.type === 'pa_mkjp') { 
+                        if(d.seluruhKolom.length > (5+i)) totalTarget += bersihkanAngka(d.seluruhKolom[5 + i]); 
+                        if(d.seluruhKolom.length > (17+i)) totalLapor += bersihkanAngka(d.seluruhKolom[17 + i]); 
+                    } else { 
+                        if(d.seluruhKolom.length > 5) totalTarget += bersihkanAngka(d.seluruhKolom[5]); 
+                        if(d.seluruhKolom.length > (6+i)) totalLapor += bersihkanAngka(d.seluruhKolom[6 + i]); 
+                    } 
+                }); 
+
+                let persen = totalTarget > 0 ? (totalLapor / totalTarget) * 100 : 0; 
+                let performa = persen; 
+                if (config.type === 'pb' && idealBulanKe > 0) { 
+                    performa = (persen / idealBulanKe) * 100; 
+                } else if (config.type === 'pa_mkjp') { 
+                    performa = (persen / 49.5) * 100; 
+                } 
+
+                const statusPerforma = getStatusColor(performa); 
+                const statusPersen = (config.type === 'pb' || config.type === 'pa_mkjp') ? statusPerforma : getStatusColor(persen); 
+                
+                let row = `<tr class="hover:bg-white transition-colors"><td class="p-3 border border-gray-200 font-medium">${daftarBulan[i]}</td><td class="p-3 border border-gray-200">${totalTarget.toLocaleString()}</td><td class="p-3 border border-gray-200">${totalLapor.toLocaleString()}</td><td class="p-3 border border-gray-200 ${statusPersen.css}">${persen.toFixed(2)}%</td>`; 
+                if (config.type === 'pb' || config.type === 'pa_mkjp') { 
+                    row += `<td class="p-3 border border-gray-200 ${statusPerforma.css}">${performa.toFixed(2)}%</td>`; 
+                } 
+                row += `</tr>`; 
+                bodyTabelTren.innerHTML += row; 
+                
+                labels.push(daftarBulan[i]); 
+                values.push(config.type === 'pb' || config.type === 'pa_mkjp' ? performa : persen); 
+            } 
+
+            if(chartTren) chartTren.destroy(); 
+            const isPerformaModeTren = config.type === 'pb' || config.type === 'pa_mkjp'; 
+            
+            chartTren = new Chart(document.getElementById('canvasGrafikTren').getContext('2d'), { 
+                type: 'line', 
+                data: { 
+                    labels: labels, 
+                    datasets: [{ 
+                        label: isPerformaModeTren ? 'Performa Kinerja (%)' : 'Persentase Capaian (%)', 
+                        data: values, 
+                        borderColor: '#2563eb', 
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)', 
+                        borderWidth: 3, 
+                        tension: 0.2, 
+                        fill: true, 
+                        pointRadius: 6 
+                    }] 
+                }, 
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    plugins: { 
+                        datalabels: { 
+                            anchor: 'top', 
+                            align: 'top', 
+                            color: '#4b5563', 
+                            font: { weight: 'bold', size: 10 }, 
+                            formatter: v => (Number(v) || 0).toFixed(1) + '%' 
+                        } 
+                    }, 
+                    scales: { 
+                        y: { 
+                            beginAtZero: true, 
+                            max: Math.ceil(Math.max(...values, 100) * 1.1) 
+                        } 
+                    } 
+                } 
+            }); 
+        }
+
         muatDataIndikator();
     </script>
 </body>
